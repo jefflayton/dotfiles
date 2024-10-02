@@ -1,7 +1,13 @@
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
-		{ "theHamsta/nvim-dap-virtual-text" },
+		{
+			"rcarriga/nvim-dap-ui",
+			dependencies = {
+				"mfussenegger/nvim-dap",
+			},
+		},
+		"leoluz/nvim-dap-go",
 	},
 	config = function()
 		require("mason").setup({
@@ -17,6 +23,8 @@ return {
 
 		local dap = require("dap")
 
+		require("dap-go").setup()
+
 		dap.adapters.codelldb = {
 			type = "server",
 			port = "${port}",
@@ -27,7 +35,7 @@ return {
 			},
 		}
 
-		dap.configurations.cpp = {
+		dap.configurations.c = {
 			{
 				name = "Debug an Executable",
 				type = "codelldb",
@@ -44,37 +52,106 @@ return {
 			},
 		}
 
-		dap.configurations.rust = dap.configurations.cpp
+		dap.configurations.cpp = dap.configurations.c
+		dap.configurations.rust = dap.configurations.c
 
 		vim.keymap.set("n", "<leader>dd", function()
 			dap.continue()
 		end)
+
 		vim.keymap.set("n", "<leader>do", function()
 			dap.step_over()
 		end)
+
 		vim.keymap.set("n", "<leader>dO", function()
 			dap.step_out()
 		end)
+
 		vim.keymap.set("n", "<leader>di", function()
 			dap.step_into()
 		end)
+
 		vim.keymap.set("n", "<leader>db", function()
 			dap.toggle_breakpoint()
 		end)
+
 		vim.keymap.set("n", "<leader>dl", function()
 			dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
 		end)
+
 		vim.keymap.set("n", "<leader>dr", function()
 			dap.run_last()
 		end)
+
 		vim.keymap.set("n", "<leader>dt", function()
 			dap.terminate()
 		end)
 
-		require("nvim-dap-virtual-text").setup({
-			prefix = "ﬦ ",
-			enabled = true,
-			hl = "Comment",
+		require("which-key").add({
+			{
+				"<leader>dd",
+				function()
+					dap.continue()
+				end,
+				desc = "DAP Continue",
+				mode = "n",
+			},
+			{
+				"<leader>do",
+				function()
+					dap.step_over()
+				end,
+				desc = "DAP Step Over",
+				mode = "n",
+			},
+			{
+				"<leader>dO",
+				function()
+					dap.step_out()
+				end,
+				desc = "DAP Step Out",
+				mode = "n",
+			},
+			{
+				"<leader>di",
+				function()
+					dap.step_into()
+				end,
+				desc = "DAP Step Into",
+				mode = "n",
+			},
+			{
+				"<leader>db",
+				function()
+					dap.toggle_breakpoint()
+				end,
+				desc = "DAP Toggle Breakpoint",
+				mode = "n",
+			},
+			{
+				"<leader>dl",
+				function()
+					dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+				end,
+				desc = "DAP Set Breakpoint",
+				mode = "n",
+			},
+			{
+				"<leader>dr",
+				function()
+					dap.run_last()
+				end,
+				desc = "DAP Run Last",
+				mode = "n",
+			},
+			{
+				"<leader>dt",
+				function()
+					dap.terminate()
+				end,
+				desc = "DAP Terminate",
+				mode = "n",
+			},
 		})
 	end,
 }
