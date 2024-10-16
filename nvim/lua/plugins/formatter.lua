@@ -3,6 +3,20 @@ return {
 	config = function()
 		local util = require("formatter.util")
 
+		local mason = require("mason")
+		local mason_registry = require("mason-registry")
+
+		mason.setup({
+			ensure_installed = {
+				"clang-format",
+				"stylua",
+				"shfmt",
+				"prettier",
+				"gofmt",
+				"google-java-format",
+			},
+		})
+
 		-- Define the Prettier formatter function
 		local usePrettier = function()
 			return {
@@ -52,6 +66,14 @@ return {
 			}
 		end
 
+		local useJavaFormat = function()
+			return {
+				exe = "google-java-format",
+				args = { "--replace" },
+				stdin = true,
+			}
+		end
+
 		require("formatter").setup({
 			logging = false,
 			filetype = {
@@ -59,20 +81,25 @@ return {
 				c = { useClangFormat },
 				cpp = { useClangFormat },
 
+				-- Use google-java-format for Java files
+				java = { useJavaFormat },
+
 				-- Use Stylua for Lua files
 				lua = { useStylua },
 
 				-- Use Gofmt for Go files
 				go = { useGofmt },
 
-				-- Use Prettier for several filetypes
+				-- Use Prettier for JavaScript and TypeScript files
 				json = { usePrettier },
 				javascript = { usePrettier },
 				javascriptreact = { usePrettier },
-				sh = { useShfmt },
-				bash = { useShfmt },
 				typescript = { usePrettier },
 				typescriptreact = { usePrettier },
+
+				-- Use Shfmt for Shell files
+				sh = { useShfmt },
+				bash = { useShfmt },
 			},
 		})
 
@@ -84,6 +111,17 @@ return {
 			callback = function()
 				vim.cmd("FormatWrite")
 			end,
+		})
+
+		require("which-key").add({
+			{
+				"<leader>fm",
+				function()
+					vim.cmd("FormatWrite")
+				end,
+				desc = "Format: Format",
+				mode = "n",
+			},
 		})
 	end,
 }
