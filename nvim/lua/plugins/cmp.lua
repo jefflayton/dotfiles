@@ -4,12 +4,6 @@ return {
 		"L3MON4D3/LuaSnip",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-path",
-		{
-			"supermaven-inc/supermaven-nvim",
-			config = function()
-				require("supermaven-nvim").setup({})
-			end,
-		},
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -33,7 +27,7 @@ return {
 				["<C-p>"] = cmp.mapping.select_prev_item(),
 				["<C-Space>"] = cmp.mapping.complete(),
 				["<C-e>"] = cmp.mapping.abort(),
-				["<S-CR>"] = cmp.mapping(function(fallback)
+				["<CR>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
 					elseif luasnip.expand_or_locally_jumpable() then
@@ -42,7 +36,7 @@ return {
 						fallback()
 					end
 				end, { "i", "s" }),
-				["<C-Tab>"] = cmp.mapping(function(fallback)
+				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
 					elseif luasnip.expand_or_locally_jumpable() then
@@ -69,7 +63,6 @@ return {
 				-- end, { "i", "s" }),
 			}),
 			sources = cmp.config.sources({
-				{ name = "supermaven" },
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "path" },
@@ -94,17 +87,6 @@ return {
 			}, {
 				{ name = "cmdline" },
 			}),
-		})
-
-		require("which-key").add({
-			{
-				"<C-B>",
-				function()
-					cmp.mapping.scroll_docs(-4)
-				end,
-				desc = "CMP docs scroll down",
-				mode = "i",
-			},
 		})
 	end,
 }

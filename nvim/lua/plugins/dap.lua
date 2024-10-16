@@ -1,15 +1,8 @@
 return {
 	"mfussenegger/nvim-dap",
-	dependencies = {
-		{
-			"rcarriga/nvim-dap-ui",
-			dependencies = {
-				"mfussenegger/nvim-dap",
-			},
-		},
-		"leoluz/nvim-dap-go",
-	},
 	config = function()
+		local dap = require("dap")
+
 		require("mason").setup({
 			ensure_installed = { "codelldb" },
 			automatic_installation = true,
@@ -21,9 +14,8 @@ return {
 		local codelldb_path = codelldb_root .. "adapter/codelldb"
 		local liblldb_path = codelldb_root .. "lldb/lib/liblldb.dylib"
 
-		local dap = require("dap")
-
-		require("dap-go").setup()
+		local js_debug_path = mason_registry.get_package("js-debug-adapter"):get_install_path()
+			.. "/js-debug/src/dapDebugServer.js"
 
 		dap.adapters.codelldb = {
 			type = "server",
@@ -31,7 +23,7 @@ return {
 			host = "127.0.0.1",
 			executable = {
 				command = codelldb_path,
-				args = { "--liblldb", liblldb_path, "--port", "${port}" },
+				args = { "--port", "${port}" },
 			},
 		}
 
@@ -55,37 +47,93 @@ return {
 		dap.configurations.cpp = dap.configurations.c
 		dap.configurations.rust = dap.configurations.c
 
-		vim.keymap.set("n", "<leader>dd", function()
-			dap.continue()
-		end)
+		dap.adapters.delve = function(callback, config)
+			if config.mode == "remote" and config.request == "attach" then
+				callback({
+					type = "server",
+					host = config.host or "127.0.0.1",
+					port = config.port or "38697",
+				})
+			else
+				callback({
+					type = "server",
+					port = "${port}",
+					executable = {
+						command = "dlv",
+						args = { "dap", "-l", "127.0.0.1:${port}", "--log", "--log-output=dap" },
+						detached = vim.fn.has("win32") == 0,
+					},
+				})
+			end
+		end
 
-		vim.keymap.set("n", "<leader>do", function()
-			dap.step_over()
-		end)
+		-- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+		dap.configurations.go = {
+			{
+				type = "delve",
+				name = "Debug",
+				request = "launch",
+				program = "${file}",
+			},
+			{
+				type = "delve",
+				name = "Debug test", -- configuration for debugging test files
+				request = "launch",
+				mode = "test",
+				program = "${file}",
+			},
+			-- works with go.mod packages and sub packages
+			{
+				type = "delve",
+				name = "Debug test (go.mod)",
+				request = "launch",
+				mode = "test",
+				program = "./${relativeFileDirname}",
+			},
+		}
 
-		vim.keymap.set("n", "<leader>dO", function()
-			dap.step_out()
-		end)
+		dap.adapters["pwa-node"] = {
+			type = "server",
+			host = "localhost",
+			port = "${port}",
+			executable = {
+				command = "node",
+				args = { js_debug_path, "${port}" },
+			},
+		}
 
-		vim.keymap.set("n", "<leader>di", function()
-			dap.step_into()
-		end)
+		dap.configurations.typescript = {
+			{
+				type = "pwa-node",
+				request = "launch",
+				name = "[Deno] Launch file",
+				runtimeExecutable = "deno",
+				runtimeArgs = {
+					"run",
+					"--inspect-wait",
+					"--allow-all",
+				},
+				program = "${file}",
+				cwd = "${workspaceFolder}",
+				attachSimplePort = 9229,
+			},
+			{
+				type = "pwa-node",
+				request = "launch",
+				name = "[Node] Launch file",
+				runtimeExecutable = "node",
+				runtimeArgs = {
+					"run",
+					"--inspect-wait",
+					"--allow-all",
+				},
+				program = "${file}",
+				cwd = "${workspaceFolder}",
+				attachSimplePort = 9229,
+			},
+		}
 
-		vim.keymap.set("n", "<leader>db", function()
-			dap.toggle_breakpoint()
-		end)
-
-		vim.keymap.set("n", "<leader>dl", function()
-			dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-		end)
-
-		vim.keymap.set("n", "<leader>dr", function()
-			dap.run_last()
-		end)
-
-		vim.keymap.set("n", "<leader>dt", function()
-			dap.terminate()
-		end)
+		dap.configurations.javascript = dap.configurations.typescript
 
 		require("which-key").add({
 			{
@@ -93,7 +141,7 @@ return {
 				function()
 					dap.continue()
 				end,
-				desc = "DAP Continue",
+				desc = "DAP: Continue",
 				mode = "n",
 			},
 			{
@@ -101,7 +149,7 @@ return {
 				function()
 					dap.step_over()
 				end,
-				desc = "DAP Step Over",
+				desc = "DAP: Step Over",
 				mode = "n",
 			},
 			{
@@ -109,7 +157,7 @@ return {
 				function()
 					dap.step_out()
 				end,
-				desc = "DAP Step Out",
+				desc = "DAP: Step Out",
 				mode = "n",
 			},
 			{
@@ -117,7 +165,7 @@ return {
 				function()
 					dap.step_into()
 				end,
-				desc = "DAP Step Into",
+				desc = "DAP: Step Into",
 				mode = "n",
 			},
 			{
@@ -125,7 +173,7 @@ return {
 				function()
 					dap.toggle_breakpoint()
 				end,
-				desc = "DAP Toggle Breakpoint",
+				desc = "DAP: Toggle Breakpoint",
 				mode = "n",
 			},
 			{
@@ -133,7 +181,7 @@ return {
 				function()
 					dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
 				end,
-				desc = "DAP Set Breakpoint",
+				desc = "DAP: Set Breakpoint",
 				mode = "n",
 			},
 			{
@@ -141,7 +189,7 @@ return {
 				function()
 					dap.run_last()
 				end,
-				desc = "DAP Run Last",
+				desc = "DAP: Run Last",
 				mode = "n",
 			},
 			{
@@ -149,7 +197,7 @@ return {
 				function()
 					dap.terminate()
 				end,
-				desc = "DAP Terminate",
+				desc = "DAP: Terminate",
 				mode = "n",
 			},
 		})
