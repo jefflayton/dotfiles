@@ -6,6 +6,7 @@ return {
 			ts_config = {
 				lua = { "string" }, -- it will not add a pair on that treesitter node
 				javascript = { "template_string" },
+				typescript = { "template_string" },
 				rust = { "template_string" },
 			},
 		})

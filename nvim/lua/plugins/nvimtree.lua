@@ -67,15 +67,9 @@ return {
 
 		require("which-key").add({
 			{
-				"<C-n>",
+				"<leader>e",
 				":NvimTreeToggle<CR>",
 				desc = "Toggle nvim-tree",
-				mode = "n",
-			},
-			{
-				"<leader>e",
-				":NvimTreeFocus<CR>",
-				desc = "Focus nvim-tree",
 				mode = "n",
 			},
 		})

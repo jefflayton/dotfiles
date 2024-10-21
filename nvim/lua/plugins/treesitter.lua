@@ -5,7 +5,25 @@ return {
 		local configs = require("nvim-treesitter.configs")
 
 		configs.setup({
-			ensure_installed = { "c", "cpp", "go", "java", "jsdoc", "javascript", "typescript",  "markdown", "markdown_inline", "tsx", "json", "python","jsonc", "lua", "bash" },
+			ensure_installed = {
+				"c",
+				"cpp",
+				"go",
+				"java",
+        "jsdoc",
+				"javascript",
+				"typescript",
+        "jsx",
+				"tsx",
+				"json",
+        "jsonc",
+        "python",
+				"lua",
+				"bash",
+				"make",
+        "markdown",
+        "markdown_inline",
+			},
 			sync_install = false,
 			auto_install = true,
 			ignore_install = {},

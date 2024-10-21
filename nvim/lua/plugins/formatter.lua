@@ -14,6 +14,7 @@ return {
 				"prettier",
 				"gofmt",
 				"google-java-format",
+				"black",
 			},
             automatic_installation = true,
 		})
@@ -75,6 +76,14 @@ return {
 			}
 		end
 
+		local useBlack = function()
+			return {
+				exe = "black",
+				args = { "-" },
+				stdin = true,
+			}
+		end
+
 		require("formatter").setup({
 			logging = false,
 			filetype = {
@@ -101,6 +110,9 @@ return {
 				-- Use Shfmt for Shell files
 				sh = { useShfmt },
 				bash = { useShfmt },
+
+				-- Use Black for Python files
+				python = { useBlack },
 			},
 		})
 
