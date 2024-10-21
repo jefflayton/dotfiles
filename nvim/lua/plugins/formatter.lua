@@ -15,6 +15,7 @@ return {
 				"gofmt",
 				"google-java-format",
 			},
+            automatic_installation = true,
 		})
 
 		-- Define the Prettier formatter function

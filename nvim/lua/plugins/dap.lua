@@ -4,7 +4,7 @@ return {
 		local dap = require("dap")
 
 		require("mason").setup({
-			ensure_installed = { "codelldb" },
+			ensure_installed = { "codelldb", "js-debug-adapter" },
 			automatic_installation = true,
 		})
 
