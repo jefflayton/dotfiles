@@ -30,7 +30,7 @@ return {
 						mode = "n",
 					},
 					{
-						"<leader>rn",
+						"rn",
 						function()
 							require("nvim-tree.api").fs.rename()
 						end,

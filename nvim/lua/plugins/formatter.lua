@@ -69,8 +69,12 @@ return {
 
 		local useJavaFormat = function()
 			return {
-				exe = "google-java-format",
-				args = { "--replace" },
+				--[[ exe = "google-java-format",
+				"--aosp",
+				util.escape_path(util.get_current_buffer_file_path()),
+				"--replace", ]]
+				exe = "clang-format",
+				args = { "--style", "Google" },
 				stdin = true,
 			}
 		end
