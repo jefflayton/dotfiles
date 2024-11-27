@@ -5,8 +5,15 @@ return {
 		{ "nvim-telescope/telescope-dap.nvim" },
 	},
 	config = function()
-		local telescope = require("telescope")
-		telescope.setup({})
+		require("telescope").setup({
+			defaults = {
+				file_ignore_patterns = { "node_modules" },
+				vimgrep_arguments = {
+					"rg",
+					"--hidden",
+				},
+			},
+		})
 
 		local builtin = require("telescope.builtin")
 

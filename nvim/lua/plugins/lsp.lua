@@ -30,7 +30,7 @@ return {
 					mode = "n",
 				},
 				{
-					"gp",
+					"gd",
 					require("telescope.builtin").lsp_definitions,
 					desc = "LSP: Definitions",
 					mode = "n",

@@ -19,5 +19,5 @@ option_as_alt = "Both"
 history = 10000
 
 [font]
-normal = { family = "RobotoMono Nerd Font" }
+normal = { family = "JetBrainsMono Nerd Font" }
 size = 13

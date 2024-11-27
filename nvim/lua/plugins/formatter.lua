@@ -16,6 +16,7 @@ return {
 				"google-java-format",
 				"black",
 			},
+            automatic_installation = true,
 		})
 
 		-- Define the Prettier formatter function
