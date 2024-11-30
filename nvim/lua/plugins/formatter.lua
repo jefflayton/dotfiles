@@ -1,0 +1,63 @@
+return {
+	"mhartington/formatter.nvim",
+	config = function()
+		local util = require("formatter.util")
+
+		local mason_registry = require("mason-registry")
+
+		-- Define the Prettier formatter function
+		local usePrettier = function()
+			return {
+				exe = "npx",
+				args = {
+					"prettier",
+					"--stdin-filepath",
+					util.escape_path(util.get_current_buffer_file_path()),
+				},
+				stdin = true,
+			}
+		end
+
+		-- Define the Stylua formatter function
+		local useStylua = function()
+			return {
+				exe = "stylua",
+				args = { "-" },
+				stdin = true,
+			}
+		end
+
+		-- Define the Clang-format formatter function
+		local useClangFormat = function()
+			return {
+				exe = "clang-format",
+				args = { "--style='{IndentWidth: 4}'" },
+				stdin = true,
+			}
+		end
+
+		require("formatter").setup({
+			logging = false,
+			filetype = {
+				lua = { useStylua },
+				json = { usePrettier },
+				javascript = { usePrettier },
+				javascriptreact = { usePrettier },
+				typescript = { usePrettier },
+				typescriptreact = { usePrettier },
+				c = { useClangFormat },
+				cpp = { useClangFormat },
+			},
+		})
+
+		-- Automatically format on save
+		vim.api.nvim_create_augroup("FormatAutgroup", { clear = true })
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			group = "FormatAutgroup",
+			pattern = "*",
+			callback = function()
+				vim.cmd("FormatWrite")
+			end,
+		})
+	end,
+}
