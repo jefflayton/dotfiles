@@ -18,8 +18,9 @@ config.color_scheme = "Catppuccin Mocha"
 
 -- Window
 config.hide_tab_bar_if_only_one_tab = true
-config.window_background_opacity = 0.85
+config.window_background_opacity = 0.95
 config.window_decorations = "RESIZE"
+config.window_padding = { top = 16, right = 16, bottom = 16, left = 16 }
 
 local keybinds = require("keybinds")
 config.keys = keybinds

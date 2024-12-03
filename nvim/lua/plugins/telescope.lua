@@ -18,6 +18,7 @@ return {
 					"--column",
 					"--smart-case",
 					"--no-ignore",
+					"--glob=!.git",
 				},
 			},
 			pickers = {
@@ -26,6 +27,7 @@ return {
 						"rg",
 						"--hidden",
 						"--files",
+						"--glob=!.git",
 					},
 				},
 			},
