@@ -5,7 +5,7 @@ local config = {
 		key = "c",
 		mods = "LEADER",
 		help = "Open a new tab",
-		action = wezterm.action.SpawnTab("CurrentPaneDomain"),
+		action = wezterm.action.SpawnCommandInNewTab({ cwd = wezterm.home_dir }),
 	},
 	{
 		key = "X",

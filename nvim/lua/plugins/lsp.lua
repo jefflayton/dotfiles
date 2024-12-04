@@ -52,6 +52,8 @@ return {
 				"ts_ls",
 				"denols",
 				"clangd",
+				"sqls",
+				"jdtls",
 			},
 			automatic_installation = true,
 		})
@@ -107,6 +109,24 @@ return {
 		lspconfig.clangd.setup({
 			on_attach = on_attach,
 			capabilities = capabilities,
+		})
+
+		lspconfig.sqls.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+		})
+
+		lspconfig.jdtls.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			{
+				"jdtls",
+				"-configuration",
+				"/home/user/.cache/jdtls/config",
+				"-data",
+				"/home/user/.cache/jdtls/workspace",
+			},
+			single_file_support = true,
 		})
 	end,
 }

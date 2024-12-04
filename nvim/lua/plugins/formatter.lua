@@ -36,6 +36,32 @@ return {
 			}
 		end
 
+		-- Define Clang-format for Java files
+		local useClangFormatJava = function()
+			return {
+				exe = "clang-format",
+				args = {
+					"--style='{BasedOnStyle: Chromium}'",
+				},
+				stdin = true,
+			}
+		end
+
+		-- Define the pgFormatter formatter function
+		local useSQLFluff = function()
+			return {
+				exe = "sqlfluff",
+				args = {
+					"format",
+					"--disable-progress-bar",
+					"--nocolor",
+					"-",
+				},
+				stdin = true,
+				ignore_exitcode = false,
+			}
+		end
+
 		require("formatter").setup({
 			logging = false,
 			filetype = {
@@ -47,6 +73,8 @@ return {
 				typescriptreact = { usePrettier },
 				c = { useClangFormat },
 				cpp = { useClangFormat },
+				java = { useClangFormatJava },
+				sql = { useSQLFluff },
 			},
 		})
 
