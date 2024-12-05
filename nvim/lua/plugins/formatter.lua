@@ -3,8 +3,6 @@ return {
 	config = function()
 		local util = require("formatter.util")
 
-		local mason_registry = require("mason-registry")
-
 		-- Define the Prettier formatter function
 		local usePrettier = function()
 			return {
@@ -16,6 +14,27 @@ return {
 				},
 				stdin = true,
 			}
+		end
+
+		-- Define the Deno formatter function
+		local useDeno = function()
+			return {
+				exe = "deno",
+				args = { "fmt", "-" },
+				stdin = true,
+			}
+		end
+
+		local formatTypescript = function()
+			local cwd = vim.fn.getcwd()
+			local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
+				or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
+
+			if is_deno then
+				return useDeno()
+			else
+				return usePrettier()
+			end
 		end
 
 		-- Define the Stylua formatter function
@@ -69,7 +88,7 @@ return {
 				json = { usePrettier },
 				javascript = { usePrettier },
 				javascriptreact = { usePrettier },
-				typescript = { usePrettier },
+				typescript = { formatTypescript },
 				typescriptreact = { usePrettier },
 				c = { useClangFormat },
 				cpp = { useClangFormat },
