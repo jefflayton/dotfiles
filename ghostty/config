@@ -1,0 +1,22 @@
+# Ghostty configuration file
+
+# Theme
+theme = catppuccin-mocha
+background-opacity = 0.85
+
+# Font
+font-family = "JetBrains Mono"
+
+# Window
+window-padding-x = 12
+
+# Cursor
+cursor-style = bar
+
+# Keybinds
+config-file = ./keybinds
+
+# Miscellaneous
+mouse-hide-while-typing = true
+confirm-close-surface = true
+macos-option-as-alt = true

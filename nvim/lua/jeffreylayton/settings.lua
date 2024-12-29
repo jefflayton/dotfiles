@@ -20,3 +20,8 @@ vim.opt.smartcase = true
 
 -- Terminal colors
 vim.opt.termguicolors = true
+
+-- Required for Denols
+vim.g.markdown_fenced_languages = {
+	"ts=typescript",
+}

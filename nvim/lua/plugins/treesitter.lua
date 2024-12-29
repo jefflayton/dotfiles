@@ -2,23 +2,28 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
 	config = function()
-		local configs = require("nvim-treesitter.configs")
+		vim.filetype.add({
+			pattern = {
+				["~/.config/ghostty/*"] = "properties",
+			},
+		})
 
+		local configs = require("nvim-treesitter.configs")
 		configs.setup({
 			ensure_installed = {
+				"bash",
 				"c",
 				"cpp",
-				"json",
-				"jsdoc",
-				"java",
 				"javascript",
-				"typescript",
+				"jsdoc",
+				"json",
+				"jsonc",
 				"lua",
-				"bash",
 				"make",
 				"markdown",
 				"markdown_inline",
 				"sql",
+				"typescript",
 			},
 			sync_install = false,
 			auto_install = true,
