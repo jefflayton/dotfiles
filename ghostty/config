@@ -2,7 +2,7 @@
 
 # Theme
 theme = catppuccin-mocha
-background-opacity = 0.85
+background-opacity = 0.9
 
 # Font
 font-family = "JetBrains Mono"
@@ -17,6 +17,9 @@ cursor-style = bar
 config-file = ./keybinds
 
 # Miscellaneous
-mouse-hide-while-typing = true
-confirm-close-surface = true
+shell-integration = zsh
+working-directory = home
 macos-option-as-alt = true
+confirm-close-surface = true
+mouse-hide-while-typing = true
+window-inherit-working-directory = true
