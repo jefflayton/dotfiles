@@ -4,7 +4,8 @@ return {
 	version = "*",
 	dependencies = {
 		"SmiteshP/nvim-navic",
-		"nvim-tree/nvim-web-devicons",
+		-- "nvim-tree/nvim-web-devicons",
+		"echasnovski/mini.icons",
 	},
 	opts = {},
 }

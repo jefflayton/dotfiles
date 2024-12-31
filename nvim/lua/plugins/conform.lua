@@ -48,5 +48,15 @@ return {
 				conform.format({ bufnr = args.buf })
 			end,
 		})
+
+		require("which-key").add({
+			{
+				"<leader>fm",
+				function()
+					conform.format({ bufnr = vim.api.nvim_get_current_buf() })
+				end,
+				desc = "Format",
+			},
+		})
 	end,
 }

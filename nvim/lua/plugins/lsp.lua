@@ -1,10 +1,11 @@
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		{ "williamboman/mason.nvim", opt = {} },
-		{ "williamboman/mason-lspconfig.nvim" },
-		{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-		{ "saghen/blink.cmp" },
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		"saghen/blink.cmp",
+		"echasnovski/mini.extra",
 	},
 	config = function()
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -15,17 +16,36 @@ return {
 		}
 
 		local callback = function(event)
-			local builtin = require("telescope.builtin")
+			-- local builtin = require("telescope.builtin")
 			local map = function(keys, func, desc)
 				vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 			end
 
-			map("gd", builtin.lsp_definitions, "Goto Definition")
-			map("gr", builtin.lsp_references, "Goto References")
-			map("gI", builtin.lsp_implementations, "Goto Implementation")
-			map("<leader>lD", builtin.lsp_type_definitions, "Type Definition")
-			map("<leader>ld", builtin.lsp_document_symbols, "Document Symbols")
-			map("<leader>lw", builtin.lsp_dynamic_workspace_symbols, "Workspace Symbols")
+			local miniExtra = require("mini.extra")
+			-- map("gd", builtin.lsp_definitions, "Goto Definition")
+			map("gd", function()
+				miniExtra.pickers.lsp({ scope = "definition" })
+			end, "Goto Definition")
+			-- map("gr", builtin.lsp_references, "Goto References")
+			map("gr", function()
+				miniExtra.pickers.lsp({ scope = "references" })
+			end, "Goto References")
+			-- map("gI", builtin.lsp_implementations, "Goto Implementation")
+			map("gI", function()
+				miniExtra.pickers.lsp({ scope = "implementation" })
+			end, "Goto Implementation")
+			-- map("<leader>lD", builtin.lsp_type_definitions, "Type Definition")
+			map("<leader>lD", function()
+				miniExtra.pickers.lsp({ scope = "type" })
+			end, "Type Definition")
+			-- map("<leader>ld", builtin.lsp_document_symbols, "Document Symbols")
+			map("<leader>ld", function()
+				miniExtra.pickers.lsp({ scope = "document_symbol" })
+			end, "Document Symbols")
+			-- map("<leader>lw", builtin.lsp_dynamic_workspace_symbols, "Workspace Symbols")
+			map("<leader>lw", function()
+				miniExtra.pickers.lsp({ scope = "workspace_symbol" })
+			end, "Workspace Symbols")
 			map("<leader>lr", vim.lsp.buf.rename, "Rename")
 			map("<leader>la", vim.lsp.buf.code_action, "Code Action")
 			map("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -70,7 +90,7 @@ return {
 			callback = callback,
 		})
 
-		local servers = require("jeffreylayton.tools").lsp_servers(require("lspconfig"))
+		local servers = require("jeffreylayton.tools").lsp_servers()
 		local ensure_installed = vim.tbl_keys(servers or {})
 
 		local formatters = require("jeffreylayton.tools").formatters_by_ft
