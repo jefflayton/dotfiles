@@ -1,7 +1,7 @@
 return {
 	"echasnovski/mini.pick",
 	dependencies = {
-		"echasnovski/mini.nvim",
+		"echasnovski/mini.extra",
 	},
 	version = "*",
 	config = function()
