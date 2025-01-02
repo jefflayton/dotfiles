@@ -1,6 +1,8 @@
 local wezterm = require("wezterm")
 
-local config = {
+local config = {}
+
+config.keys = {
 	{
 		key = "c",
 		mods = "LEADER",
@@ -90,6 +92,11 @@ local config = {
 		mods = "LEADER",
 		action = wezterm.action.ActivateCopyMode,
 	},
+	{
+		key = "]",
+		mods = "LEADER",
+		action = wezterm.action.PasteFrom("PrimarySelection"),
+	},
 }
 
 for i = 1, 9 do
@@ -104,5 +111,145 @@ table.insert(config, {
 	mods = "LEADER",
 	action = wezterm.action.ActivateTab(10),
 })
+
+config.key_tables = {
+	copy_mode = {
+		{
+			key = "Escape",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("Close"),
+		},
+		{
+			key = "h",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveLeft"),
+		},
+		{
+			key = "j",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveDown"),
+		},
+		{
+			key = "k",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveUp"),
+		},
+		{
+			key = "l",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveRight"),
+		},
+		{
+			key = "w",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveForwardWord"),
+		},
+		{
+			key = "b",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveBackwardWord"),
+		},
+		{
+			key = "4",
+			mods = "SHIFT",
+			action = wezterm.action.CopyMode("MoveToEndOfLineContent"),
+		},
+		{
+			key = "^",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveToStartOfLineContent"),
+		},
+		{
+			key = "^",
+			mods = "SHIFT",
+			action = wezterm.action.CopyMode("MoveToStartOfLineContent"),
+		},
+		{ key = "v", mods = "NONE", action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
+		{
+			key = "V",
+			mods = "NONE",
+			action = wezterm.action.CopyMode({ SetSelectionMode = "Line" }),
+		},
+		{
+			key = "v",
+			mods = "CTRL",
+			action = wezterm.action.CopyMode({ SetSelectionMode = "Block" }),
+		},
+		{
+			key = "G",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveToScrollbackBottom"),
+		},
+		{
+			key = "g",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveToScrollbackTop"),
+		},
+
+		-- Enter y to copy and quit the copy mode.
+		{
+			key = "y",
+			mods = "NONE",
+			action = wezterm.action.Multiple({
+				wezterm.action.CopyTo("ClipboardAndPrimarySelection"),
+				wezterm.action.CopyMode("Close"),
+			}),
+		},
+		{
+			key = "/",
+			mods = "NONE",
+			action = wezterm.action({ Search = { CaseSensitiveString = "" } }),
+		},
+		{
+			key = "n",
+			mods = "CTRL",
+			action = wezterm.action({ CopyMode = "NextMatch" }),
+		},
+		{
+			key = "p",
+			mods = "CTRL",
+			action = wezterm.action({ CopyMode = "PriorMatch" }),
+		},
+	},
+	search_mode = {
+		{
+			key = "Escape",
+			mods = "NONE",
+			action = wezterm.action({ CopyMode = "Close" }),
+		},
+		-- Go back to copy mode when pressing enter, so that we can use unmodified keys like "n"
+		-- to navigate search results without conflicting with typing into the search area.
+		{
+			key = "Enter",
+			mods = "NONE",
+			action = "ActivateCopyMode",
+		},
+		{
+			key = "c",
+			mods = "CTRL",
+			action = "ActivateCopyMode",
+		},
+		{
+			key = "n",
+			mods = "CTRL",
+			action = wezterm.action({ CopyMode = "NextMatch" }),
+		},
+		{
+			key = "p",
+			mods = "CTRL",
+			action = wezterm.action({ CopyMode = "PriorMatch" }),
+		},
+		{
+			key = "r",
+			mods = "CTRL",
+			action = wezterm.action.CopyMode("CycleMatchType"),
+		},
+		{
+			key = "u",
+			mods = "CTRL",
+			action = wezterm.action.CopyMode("ClearPattern"),
+		},
+	},
+}
 
 return config

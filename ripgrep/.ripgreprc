@@ -1,0 +1,26 @@
+# Don't let ripgrep vomit really long lines to my terminal
+--max-columns=150
+# --max-columns-preview
+
+
+# Search hidden files / directories (e.g. dotfiles) by default
+--hidden
+
+# Formatting
+--no-heading
+--with-filename
+--line-number
+--column
+
+# Don't ignore any files or directories based on .gitignore, .ignore, etc.
+--no-ignore
+
+# Don't require git to be installed
+--no-require-git
+
+# Using glob patterns to include/exclude files or folders
+--glob=!.git/*
+--glob=!node_modules/*
+
+# Because who cares about case!?
+--smart-case

@@ -15,15 +15,24 @@ config.font_size = 14.0
 
 -- Color Scheme
 config.color_scheme = "Catppuccin Mocha"
+config.window_frame = {
+	active_titlebar_bg = "rgba(17, 17, 27, 0.85)",
+}
+
+-- Tabs
+config.use_fancy_tab_bar = true
+config.show_new_tab_button_in_tab_bar = false
+config.show_close_tab_button_in_tabs = false
 
 -- Window
-config.hide_tab_bar_if_only_one_tab = true
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.85
 config.window_decorations = "RESIZE"
 config.window_padding = { top = 32, right = 16, bottom = 16, left = 16 }
 
+-- Keybinds
 local keybinds = require("keybinds")
-config.keys = keybinds
+config.keys = keybinds.keys
+config.key_tables = keybinds.key_tables
 
 -- and finally, return the configuration to wezterm
 return config

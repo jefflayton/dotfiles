@@ -1,9 +1,9 @@
 local M = {}
 
-M.lsp_servers = function()
+M.lsp_servers = function(lspconfig)
 	return {
-		clangd = {},
 		denols = {
+			root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
 			settings = {
 				deno = {
 					unstable = true,
@@ -17,6 +17,19 @@ M.lsp_servers = function()
 						},
 					},
 				},
+			},
+		},
+		eslint = {
+			root_dir = lspconfig.util.root_pattern("package.json"),
+			single_file_support = false,
+			handlers = {
+				["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+					-- Disable diagnostics for node_modules
+					if result.uri:match("node_modules") then
+						return
+					end
+					vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+				end,
 			},
 		},
 		lua_ls = {
@@ -34,27 +47,18 @@ M.lsp_servers = function()
 				},
 			},
 		},
-		sqls = {},
 		ts_ls = {
+			root_dir = lspconfig.util.root_pattern("package.json"),
 			single_file_support = false,
 		},
 	}
 end
 
 M.formatters_by_ft = {
-	c = { "clang-format" },
-	cpp = { "clang-format" },
 	javascript = { "prettier" },
 	typescript = { "prettier" },
 	json = { "prettier" },
 	lua = { "stylua" },
-	sql = { "sqlfluff" },
-}
-
-M.linters_by_ft = {
-	json = { "jsonlint" },
-	markdown = { "markdownlint" },
-	text = { "vale" },
 }
 
 return M

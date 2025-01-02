@@ -5,15 +5,9 @@ return {
 	},
 	version = "*",
 	config = function()
+		local extra = require("mini.extra")
 		local pick = require("mini.pick")
 		pick.setup()
-
-		local extra = require("mini.extra")
-
-		local wipeout_cur = function()
-			vim.api.nvim_buf_delete(pick.get_picker_matches().current.bufnr, {})
-		end
-		local buffer_mappings = { wipeout = { char = "<C-d>", func = wipeout_cur } }
 
 		require("which-key").add({
 			{
@@ -33,14 +27,36 @@ return {
 			{
 				"<leader>fb",
 				function()
-					pick.builtin.buffers({ tool = "rg" })
+					pick.builtin.buffers({
+						tool = "rg",
+					}, {
+						mappings = {
+							wipeout = {
+								char = "<C-d>",
+								func = function()
+									local items = pick.get_picker_items()
+									local target = pick.get_picker_matches()
+									--
+									-- Close the buffer
+									vim.api.nvim_buf_delete(target.current.bufnr, {})
+
+									table.remove(items, target.current_ind)
+
+									-- Update the list of buffers
+									pick.set_picker_items(items)
+								end,
+							},
+						},
+					})
 				end,
 				desc = "Mini Pick: Buffers",
 			},
 			{
 				"<leader>fD",
 				function()
-					extra.pickers.diagnostic({ scope = "all", mapping = buffer_mappings })
+					extra.pickers.diagnostic({
+						scope = "all",
+					})
 				end,
 				desc = "Mini Extra: Diagnostics",
 			},
