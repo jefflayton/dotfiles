@@ -70,22 +70,22 @@ config.keys = {
 	{
 		key = "H",
 		mods = "LEADER",
-		action = wezterm.action.AdjustPaneSize({ "Left", 10 }),
+		action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
 	},
 	{
 		key = "L",
 		mods = "LEADER",
-		action = wezterm.action.AdjustPaneSize({ "Right", 10 }),
+		action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
 	},
 	{
 		key = "J",
 		mods = "LEADER",
-		action = wezterm.action.AdjustPaneSize({ "Down", 10 }),
+		action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
 	},
 	{
 		key = "K",
 		mods = "LEADER",
-		action = wezterm.action.AdjustPaneSize({ "Up", 10 }),
+		action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
 	},
 	{
 		key = "[",
@@ -97,20 +97,20 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action.PasteFrom("PrimarySelection"),
 	},
+	{
+		key = "0",
+		mods = "LEADER",
+		action = wezterm.action.ActivateTab(10),
+	},
 }
 
 for i = 1, 9 do
-	table.insert(config, {
+	table.insert(config.keys, {
 		key = tostring(i),
 		mods = "LEADER",
 		action = wezterm.action.ActivateTab(i - 1),
 	})
 end
-table.insert(config, {
-	key = "0",
-	mods = "LEADER",
-	action = wezterm.action.ActivateTab(10),
-})
 
 config.key_tables = {
 	copy_mode = {
