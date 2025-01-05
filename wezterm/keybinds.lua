@@ -155,16 +155,25 @@ config.key_tables = {
 			action = wezterm.action.CopyMode("MoveToEndOfLineContent"),
 		},
 		{
+			key = "0",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveToStartOfLine"),
+		},
+		{
 			key = "^",
 			mods = "NONE",
 			action = wezterm.action.CopyMode("MoveToStartOfLineContent"),
 		},
 		{
-			key = "^",
-			mods = "SHIFT",
-			action = wezterm.action.CopyMode("MoveToStartOfLineContent"),
+			key = "$",
+			mods = "NONE",
+			action = wezterm.action.CopyMode("MoveToEndOfLineContent"),
 		},
-		{ key = "v", mods = "NONE", action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
+		{
+			key = "v",
+			mods = "NONE",
+			action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }),
+		},
 		{
 			key = "V",
 			mods = "NONE",
@@ -198,7 +207,7 @@ config.key_tables = {
 		{
 			key = "/",
 			mods = "NONE",
-			action = wezterm.action({ Search = { CaseSensitiveString = "" } }),
+			action = wezterm.action({ Search = { CaseInSensitiveString = "" } }),
 		},
 		{
 			key = "n",

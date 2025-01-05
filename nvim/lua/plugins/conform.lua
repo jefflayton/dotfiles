@@ -6,37 +6,40 @@ return {
 	config = function()
 		local conform = require("conform")
 
-		conform.formatters.denofmt = {
-			command = "deno",
-			args = { "fmt", "-" },
-			stdin = true,
+        require("mason-tool-installer").setup({
+            ensure_installed = {
+                "prettierd",
+                "stylua",
+            },
+        })
+
+		local formatters_by_ft = {
+			javascript = { "prettierd" },
+			typescript = { "prettierd" },
+			typescriptreact = { "prettierd" },
+			json = { "prettierd" },
+			jsonc = { "prettierd" },
+			lua = { "stylua" },
 		}
 
-		conform.formatters["clang-format"] = {
-			prepend_args = { "--style='{IndentWidth: 4}'" },
-		}
-
-		conform.formatters.sqlfluff = {
-			prepend_args = {
-				"format",
-				"--disable-progress-bar",
-				"--nocolor",
-				"-",
-			},
-		}
-
-		local formatters_by_ft = require("jeffreylayton.tools").formatters_by_ft
-		formatters_by_ft.typescript = function()
+		local jsFormatter = function()
 			local cwd = vim.fn.getcwd()
 			local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
 				or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
+				or vim.fn.filereadable(cwd .. "/deno.lock") == 1
 
 			if is_deno then
-				return { "denofmt" }
+				return { "deno_fmt" }
 			else
-				return { "prettier" }
+				return { "prettierd" }
 			end
 		end
+
+		formatters_by_ft.javascript = jsFormatter
+		formatters_by_ft.typescript = jsFormatter
+		formatters_by_ft.typescriptreact = jsFormatter
+		formatters_by_ft.json = jsFormatter
+		formatters_by_ft.jsonc = jsFormatter
 
 		conform.setup({
 			formatters_by_ft = formatters_by_ft,

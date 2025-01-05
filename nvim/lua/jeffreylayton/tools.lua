@@ -1,9 +1,9 @@
-local M = {}
+local tools = {}
 
-M.lsp_servers = function(lspconfig)
+tools.lsp_servers = function(lspconfig)
 	return {
 		denols = {
-			root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+			root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "deno.lock"),
 			settings = {
 				deno = {
 					unstable = true,
@@ -19,7 +19,7 @@ M.lsp_servers = function(lspconfig)
 				},
 			},
 		},
-		eslint = {
+		eslint_d = {
 			root_dir = lspconfig.util.root_pattern("package.json"),
 			single_file_support = false,
 			handlers = {
@@ -54,11 +54,13 @@ M.lsp_servers = function(lspconfig)
 	}
 end
 
-M.formatters_by_ft = {
-	javascript = { "prettier" },
-	typescript = { "prettier" },
-	json = { "prettier" },
+tools.formatters_by_ft = {
+	javascript = { "prettierd" },
+	typescript = { "prettierd" },
+	typescriptreact = { "prettierd" },
+	json = { "prettierd" },
+	jsonc = { "prettierd" },
 	lua = { "stylua" },
 }
 
-return M
+return tools

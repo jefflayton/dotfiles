@@ -1,18 +1,22 @@
-local M = {}
+local helpers = {}
 
-M.list_aux_tools = function(tools)
-	local list = {}
+helpers.parse_tools = function(tools)
+	local unique_tools_set = {}
+	local unique_tools_list = {}
 
 	for _, v in pairs(tools) do
-		for _, f in pairs(v) do
-			if type(f) ~= "string" and not vim.tbl_contains(list, f) then
-				table.insert(list, f)
+		for _, f in ipairs(v) do
+			if not unique_tools_set[f] then
+				unique_tools_set[f] = true
 			end
 		end
 	end
 
-	print(type(list))
-	return list
+	for tool in pairs(unique_tools_set) do
+		table.insert(unique_tools_list, tool)
+	end
+
+	return unique_tools_list
 end
 
-return M
+return helpers

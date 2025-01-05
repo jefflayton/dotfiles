@@ -60,6 +60,13 @@ return {
 				end,
 				desc = "Mini Extra: Diagnostics",
 			},
+			{
+				"<leader>fs",
+				function()
+					extra.pickers.buf_lines()
+				end,
+				desc = "Mini Extra: Buffer Search",
+			},
 		})
 	end,
 }
