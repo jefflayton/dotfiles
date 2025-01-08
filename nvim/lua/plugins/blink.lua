@@ -19,8 +19,8 @@ return {
 					keymaps = {
 						accept_suggestion = nil,
 					},
-					-- disable_inline_completion = true,
-					-- disable_auto_import = true,
+					disable_inline_completion = true,
+					disable_auto_import = true,
 				},
 			},
 		},
@@ -55,7 +55,7 @@ return {
 					},
 				},
 				sources = {
-					default = { "supermaven", "lazydev", "lsp", "path", "luasnip", "snippets", "buffer" },
+					default = { "supermaven", "lazydev", "dadbod", "lsp", "path", "luasnip", "snippets", "buffer" },
 					providers = {
 						lazydev = {
 							name = "LazyDev",
@@ -66,6 +66,10 @@ return {
 							name = "supermaven",
 							module = "blink.compat.source",
 							score_offset = 100,
+						},
+						dadbod = {
+							name = "Dadbod",
+							module = "vim_dadbod_completion.blink",
 						},
 					},
 				},

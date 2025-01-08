@@ -2,12 +2,6 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
 	config = function()
-		vim.filetype.add({
-			pattern = {
-				["~/.config/ghostty/*"] = "properties",
-			},
-		})
-
 		local configs = require("nvim-treesitter.configs")
 		configs.setup({
 			ensure_installed = {

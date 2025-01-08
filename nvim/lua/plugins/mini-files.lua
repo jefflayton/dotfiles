@@ -39,7 +39,7 @@ return {
 
 		require("which-key").add({
 			{
-				"pv",
+				"<leader>e",
 				function()
 					require("mini.files").open()
 				end,
