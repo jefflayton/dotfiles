@@ -6,19 +6,19 @@ return {
 	config = function()
 		local conform = require("conform")
 
-        require("mason-tool-installer").setup({
-            ensure_installed = {
-                "prettierd",
-                "stylua",
-            },
-        })
+		require("mason-tool-installer").setup({
+			ensure_installed = {
+				"prettier",
+				"stylua",
+			},
+		})
 
 		local formatters_by_ft = {
-			javascript = { "prettierd" },
-			typescript = { "prettierd" },
-			typescriptreact = { "prettierd" },
-			json = { "prettierd" },
-			jsonc = { "prettierd" },
+			javascript = { "prettier" },
+			typescript = { "prettier" },
+			typescriptreact = { "prettier" },
+			json = { "prettier" },
+			jsonc = { "prettier" },
 			lua = { "stylua" },
 		}
 
@@ -31,7 +31,7 @@ return {
 			if is_deno then
 				return { "deno_fmt" }
 			else
-				return { "prettierd" }
+				return { "prettier" }
 			end
 		end
 
