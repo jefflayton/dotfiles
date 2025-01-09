@@ -25,9 +25,26 @@ config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
 
 -- Window
-config.window_background_opacity = 0.85
 config.window_decorations = "RESIZE"
 config.window_padding = { top = 32, right = 16, bottom = 16, left = 16 }
+
+config.background = {
+	{
+		source = {
+			File = wezterm.home_dir .. "/.config/wezterm/wallpaper.JPG",
+		},
+		height = "Contain",
+		width = "100%",
+	},
+	{
+		source = {
+			Color = wezterm.color.get_builtin_schemes()["Catppuccin Mocha"].background,
+		},
+		opacity = 0.65,
+		width = "100%",
+		height = "100%",
+	},
+}
 
 -- Keybinds
 local keybinds = require("keybinds")
