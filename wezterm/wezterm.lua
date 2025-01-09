@@ -33,7 +33,7 @@ config.background = {
 		source = {
 			File = wezterm.home_dir .. "/.config/wezterm/wallpaper.JPG",
 		},
-		height = "Contain",
+		height = "100%",
 		width = "100%",
 	},
 	{
