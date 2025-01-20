@@ -18,6 +18,7 @@ return {
 				"markdown_inline",
 				"sql",
 				"typescript",
+				"yaml",
 			},
 			sync_install = false,
 			auto_install = true,
