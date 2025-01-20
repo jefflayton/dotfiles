@@ -36,7 +36,7 @@ return {
 			end, "Workspace Symbols")
 
 			map("<leader>lr", vim.lsp.buf.rename, "Rename")
-			map("<leader>la", vim.lsp.buf.code_action, "Code Action")
+			map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 			map("K", vim.lsp.buf.hover, "Hover Documentation")
 			map("gD", vim.lsp.buf.declaration, "Goto Declaration")
 		end
@@ -61,19 +61,7 @@ return {
 					},
 				},
 			},
-			eslint_d = {
-				root_dir = lspconfig.util.root_pattern("package.json"),
-				single_file_support = false,
-				handlers = {
-					["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
-						-- Disable diagnostics for node_modules
-						if result.uri:match("node_modules") then
-							return
-						end
-						vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
-					end,
-				},
-			},
+			dockerls = {},
 			lua_ls = {
 				settings = {
 					Lua = {
@@ -89,6 +77,7 @@ return {
 					},
 				},
 			},
+			jdtls = {},
 			ts_ls = {
 				root_dir = lspconfig.util.root_pattern("package.json"),
 				single_file_support = false,

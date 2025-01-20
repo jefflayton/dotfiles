@@ -8,18 +8,20 @@ return {
 
 		require("mason-tool-installer").setup({
 			ensure_installed = {
-				"prettier",
+				"prettierd",
 				"stylua",
+				"google-java-format",
 			},
 		})
 
 		local formatters_by_ft = {
-			javascript = { "prettier" },
-			typescript = { "prettier" },
-			typescriptreact = { "prettier" },
-			json = { "prettier" },
-			jsonc = { "prettier" },
+			javascript = { "prettierd" },
+			typescript = { "prettierd" },
+			typescriptreact = { "prettierd" },
+			json = { "prettierd" },
+			jsonc = { "prettierd" },
 			lua = { "stylua" },
+			java = { "google-java-format" },
 		}
 
 		local jsFormatter = function()
@@ -31,7 +33,7 @@ return {
 			if is_deno then
 				return { "deno_fmt" }
 			else
-				return { "prettier" }
+				return { "prettierd" }
 			end
 		end
 
