@@ -1,79 +1,63 @@
 return {
-	{
-		"saghen/blink.compat",
-		version = "v2.1.2",
-		lazy = true,
-		opts = {},
+	"saghen/blink.cmp",
+	version = "*",
+	dependencies = {
+		"mikavilpas/blink-ripgrep.nvim",
+		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 	},
-	{
-		"saghen/blink.cmp",
-		dependencies = {
-			"L3MON4D3/LuaSnip",
-			{
-				"folke/lazydev.nvim",
-				ft = "lua",
+	opts = {
+		keymap = {
+			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+			["<C-e>"] = { "hide", "fallback" },
+
+			["<Tab>"] = {
+				function(cmp)
+					if cmp.snippet_active() then
+						return cmp.accept()
+					else
+						return cmp.select_and_accept()
+					end
+				end,
+				"snippet_forward",
+				"fallback",
 			},
-			{
-				"supermaven-inc/supermaven-nvim",
-				opts = {
-					keymaps = {
-						accept_suggestion = nil,
+			["<S-Tab>"] = { "snippet_backward", "fallback" },
+
+			["<Up>"] = { "select_prev", "fallback" },
+			["<Down>"] = { "select_next", "fallback" },
+			["<C-p>"] = { "select_prev", "fallback" },
+			["<C-n>"] = { "select_next", "fallback" },
+
+			["<C-b>"] = { "scroll_documentation_up", "fallback" },
+			["<C-f>"] = { "scroll_documentation_down", "fallback" },
+		},
+		snippets = { preset = "luasnip" },
+		sources = {
+			default = { "lazydev", "lsp", "path", "snippets", "buffer", "ripgrep" },
+			providers = {
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority (see `:h blink.cmp`)
+					score_offset = 100,
+				},
+				ripgrep = {
+					module = "blink-ripgrep",
+					name = "Ripgrep",
+					opts = {
+						prefix_min_len = 3,
+						context_size = 5,
+						max_filesize = "1M",
+						project_root_marker = ".git",
+						project_root_fallback = true,
+						search_casing = "--ignore-case",
+						additional_rg_options = {},
+						fallback_to_regex_highlighting = true,
+						ignore_paths = {},
+						debug = false,
 					},
-					disable_inline_completion = true,
-					disable_auto_import = true,
 				},
 			},
 		},
-		version = "v0.8.2",
-		config = function()
-			require("blink.cmp").setup({
-				keymap = {
-					preset = "super-tab",
-					["<C-n>"] = { "select_next", "show", "fallback" },
-				},
-				appearance = {
-					use_nvim_cmp_as_default = false,
-					nerd_font_variant = "mono",
-				},
-				snippets = {
-					expand = function(snippet)
-						require("luasnip").lsp_expand(snippet)
-					end,
-					active = function(filter)
-						if filter and filter.direction then
-							return require("luasnip").jumpable(filter.direction)
-						end
-						return require("luasnip").in_snippet()
-					end,
-					jump = function(direction)
-						require("luasnip").jump(direction)
-					end,
-				},
-				completion = {
-					ghost_text = {
-						enabled = true,
-					},
-				},
-				sources = {
-					default = { "supermaven", "lazydev", "dadbod", "lsp", "path", "luasnip", "snippets", "buffer" },
-					providers = {
-						lazydev = {
-							name = "LazyDev",
-							module = "lazydev.integrations.blink",
-							score_offset = 99,
-						},
-						supermaven = {
-							name = "supermaven",
-							module = "blink.compat.source",
-							score_offset = 100,
-						},
-						dadbod = {
-							name = "Dadbod",
-							module = "vim_dadbod_completion.blink",
-						},
-					},
-				},
-			})
-		end,
 	},
 }

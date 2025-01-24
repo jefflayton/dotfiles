@@ -6,11 +6,17 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"echasnovski/mini.extra",
 		"saghen/blink.cmp",
+		{
+			"sontungexpt/better-diagnostic-virtual-text",
+			lazy = true,
+		},
 	},
 	config = function()
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		local on_attach = function(_, bufnr)
+			require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
+
 			local map = function(keys, func, desc)
 				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
 			end
