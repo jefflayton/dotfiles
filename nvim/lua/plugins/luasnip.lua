@@ -8,6 +8,7 @@ return {
 			end,
 		},
 	},
+	build = "make install_jsregexp",
 	config = function()
 		require("luasnip").setup({ enable_autosnippets = true })
 	end,

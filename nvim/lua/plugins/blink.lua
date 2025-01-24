@@ -35,9 +35,14 @@ return {
 		sources = {
 			default = { "lazydev", "lsp", "path", "snippets", "buffer", "ripgrep" },
 			providers = {
+				snippets = {
+					name = "snippets",
+					module = "blink.cmp.sources.snippets",
+					score_offset = 10,
+				},
 				lazydev = {
-					name = "LazyDev",
 					module = "lazydev.integrations.blink",
+					name = "LazyDev",
 					-- make lazydev completions top priority (see `:h blink.cmp`)
 					score_offset = 100,
 				},
