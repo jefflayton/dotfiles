@@ -23,6 +23,7 @@ return {
 			html = { "prettierd" },
 			lua = { "stylua" },
 			java = { "google-java-format" },
+			yaml = { "prettier" },
 		}
 
 		local jsFormatter = function()
