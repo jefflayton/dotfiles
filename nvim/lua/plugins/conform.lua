@@ -11,6 +11,7 @@ return {
 				"prettierd",
 				"stylua",
 				"google-java-format",
+				"bibtex-tidy",
 			},
 		})
 
@@ -21,6 +22,7 @@ return {
 			json = { "prettierd" },
 			jsonc = { "prettierd" },
 			html = { "prettierd" },
+			latex = { "bibtex-tidy" },
 			lua = { "stylua" },
 			java = { "google-java-format" },
 			yaml = { "prettier" },
