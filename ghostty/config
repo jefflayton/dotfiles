@@ -2,7 +2,7 @@
 
 # Theme
 theme = catppuccin-mocha
-background-opacity = 0.9
+# background-opacity = 0.9
 
 # Font
 font-family = "JetBrains Mono"
@@ -19,7 +19,8 @@ shell-integration-features = no-cursor
 config-file = ./keybinds
 
 # Miscellaneous
-shell-integration = zsh
+shell-integration = fish
+term = xterm
 working-directory = home
 macos-option-as-alt = true
 confirm-close-surface = true
