@@ -22,7 +22,6 @@ keybind = ctrl+space>x=close_surface
 # Splits
 keybind = ctrl+space>'=new_split:up
 keybind = ctrl+space>shift+'=new_split:down
-keybind = ctrl+space>5=new_split:left
 keybind = ctrl+space>shift+5=new_split:right
 
 # Move between splits
