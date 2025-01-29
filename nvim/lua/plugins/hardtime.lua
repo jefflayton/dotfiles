@@ -2,6 +2,8 @@ return {
 	"m4xshen/hardtime.nvim",
 	dependencies = { "MunifTanjim/nui.nvim" },
 	config = function()
-		require("hardtime").setup()
+		require("hardtime").setup({
+			disable_mouse = false,
+		})
 	end,
 }
