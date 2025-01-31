@@ -80,6 +80,15 @@ return {
 					},
 				},
 			},
+			ltex = {
+				settings = {
+					ltex = {
+						additionalRules = {
+							languageModel = "~/ngrams/",
+						},
+					},
+				},
+			},
 			jdtls = {},
 			texlab = {},
 			ts_ls = {
