@@ -3,7 +3,7 @@ return {
 	lazy = false, -- Recommended
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
-		"echasnovski/mini.icons",
+		"nvim-tree/nvim-web-devicons",
 	},
 	config = function()
 		require("markview").setup()

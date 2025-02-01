@@ -4,7 +4,6 @@ return {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		"echasnovski/mini.extra",
 		"saghen/blink.cmp",
 		{
 			"sontungexpt/better-diagnostic-virtual-text",
@@ -95,6 +94,7 @@ return {
 				root_dir = lspconfig.util.root_pattern("package.json"),
 				single_file_support = false,
 			},
+			zls = {},
 		}
 		local ensure_installed = vim.tbl_keys(servers)
 

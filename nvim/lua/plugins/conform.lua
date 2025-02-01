@@ -26,6 +26,7 @@ return {
 			lua = { "stylua" },
 			java = { "google-java-format" },
 			yaml = { "prettier" },
+			zig = { "zigfmt" },
 		}
 
 		local jsFormatter = function()

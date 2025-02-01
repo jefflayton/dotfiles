@@ -20,6 +20,7 @@ return {
 				"sql",
 				"typescript",
 				"yaml",
+				"zig",
 			},
 			sync_install = false,
 			auto_install = true,
