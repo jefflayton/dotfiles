@@ -1,4 +1,5 @@
-local pickerOpts = { hidden = true, glob = { "!node_modules/*", "!.git/*" } }
+local pickerOpts =
+	{ cmd = "rg", hidden = true, exclude = { "node_modules/*", ".git/*" }, matcher = { history_bonus = true } }
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -19,9 +20,7 @@ return {
 		picker = {
 			enabled = true,
 			sources = {
-				explorer = {
-					auto_close = true,
-				},
+				explorer = { auto_close = true, ignored = true, hidden = true },
 			},
 		},
 	},
