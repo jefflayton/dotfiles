@@ -30,7 +30,7 @@ return {
 				disable = {},
 				additional_vim_regex_highlighting = false,
 			},
-			indent = { enable = false },
+			indent = { enable = true },
 			autotag = {
 				enable = true,
 				filetypes = { "html", "jsx", "tsx" },
@@ -43,7 +43,7 @@ return {
 					enable = false,
 				},
 				smart_rename = {
-					enable = false,
+					enable = true,
 				},
 			},
 		})
