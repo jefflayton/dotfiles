@@ -16,15 +16,16 @@ return {
 		})
 
 		local formatters_by_ft = {
+			go = { "gofmt" },
+			html = { "prettierd" },
+			java = { "google-java-format" },
 			javascript = { "prettierd" },
-			typescript = { "prettierd" },
-			typescriptreact = { "prettierd" },
 			json = { "prettierd" },
 			jsonc = { "prettierd" },
-			html = { "prettierd" },
 			latex = { "bibtex-tidy" },
 			lua = { "stylua" },
-			java = { "google-java-format" },
+			typescript = { "prettierd" },
+			typescriptreact = { "prettierd" },
 			yaml = { "prettier" },
 			zig = { "zigfmt" },
 		}

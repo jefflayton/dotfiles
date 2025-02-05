@@ -64,6 +64,7 @@ return {
 				},
 			},
 			dockerls = {},
+			gopls = {},
 			lua_ls = {
 				settings = {
 					Lua = {

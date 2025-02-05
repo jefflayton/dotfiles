@@ -8,6 +8,7 @@ return {
 				"bash",
 				"c",
 				"cpp",
+				"go",
 				"javascript",
 				"jsdoc",
 				"json",
