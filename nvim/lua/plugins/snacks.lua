@@ -1,5 +1,10 @@
-local pickerOpts =
-	{ cmd = "rg", hidden = true, exclude = { "node_modules/*", ".git/*" }, matcher = { history_bonus = true } }
+local pickerOpts = {
+	cmd = "rg",
+	hidden = true,
+	ignored = true,
+	exclude = { "node_modules/*", ".git/*" },
+	matcher = { history_bonus = true },
+}
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -9,7 +14,6 @@ return {
 		-- or leave it empty to use the default settings
 		-- refer to the configuration section below
 		bigfile = { enabled = true },
-		notifier = { enabled = true },
 		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
@@ -20,7 +24,17 @@ return {
 		picker = {
 			enabled = true,
 			sources = {
-				explorer = { auto_close = true, ignored = true, hidden = true },
+				files = pickerOpts,
+				grep = pickerOpts,
+				buffers = pickerOpts,
+				explorer = {
+					auto_close = true,
+					ignored = true,
+					hidden = true,
+					matcher = {
+						fuzzy = true,
+					},
+				},
 			},
 		},
 	},
@@ -28,21 +42,21 @@ return {
 		{
 			"<leader>ff",
 			function()
-				require("snacks").picker.files(pickerOpts)
+				require("snacks").picker.files()
 			end,
 			desc = "Find Files",
 		},
 		{
 			"<leader>fg",
 			function()
-				require("snacks").picker.grep(pickerOpts)
+				require("snacks").picker.grep()
 			end,
 			desc = "Live Grep",
 		},
 		{
 			"<leader>fb",
 			function()
-				require("snacks").picker.buffers(pickerOpts)
+				require("snacks").picker.buffers()
 			end,
 			desc = "Find Buffers",
 		},

@@ -14,6 +14,8 @@ macos-titlebar-style = transparent
 # Cursor
 cursor-style = block
 shell-integration-features = no-cursor
+cursor-color = 89b4fa
+cursor-opacity = 0.5
 
 # Keybinds
 config-file = ./keybinds
