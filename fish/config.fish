@@ -5,6 +5,7 @@ end
 fish_user_key_bindings
 
 alias gs="git status"
+alias gp="git push"
 alias gfo="git fetch origin"
 alias gpo="git pull origin"
 alias gcb="git checkout -b"
