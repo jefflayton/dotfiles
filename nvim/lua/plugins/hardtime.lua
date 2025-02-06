@@ -1,9 +1,16 @@
 return {
 	"m4xshen/hardtime.nvim",
 	dependencies = { "MunifTanjim/nui.nvim" },
-	config = function()
-		require("hardtime").setup({
-			disable_mouse = false,
-		})
-	end,
+	opts = {
+		enabled = true,
+		-- Allow mouse because I'm bad
+		disable_mouse = false,
+		-- Allow arrow keys for jake-stewart/multicursor.nvim
+		disabled_keys = {
+			["<Up>"] = {},
+			["<Down>"] = {},
+			["<Left>"] = {},
+			["<Right>"] = {},
+		},
+	},
 }

@@ -31,8 +31,9 @@ return {
 					auto_close = true,
 					ignored = true,
 					hidden = true,
+					focus = "input",
 					matcher = {
-						fuzzy = true,
+						fuzzy = false,
 					},
 				},
 			},

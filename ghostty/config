@@ -12,10 +12,11 @@ window-padding-x = 12
 macos-titlebar-style = transparent
 
 # Cursor
-cursor-style = block
+# cursor-style = block
 shell-integration-features = no-cursor
-cursor-color = 89b4fa
-cursor-opacity = 0.5
+cursor-color = f5c2e7
+cursor-opacity = 0.7
+adjust-cursor-thickness = 50%
 
 # Keybinds
 config-file = ./keybinds
