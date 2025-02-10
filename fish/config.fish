@@ -12,3 +12,5 @@ alias gcb="git checkout -b"
 alias gco="git checkout origin"
 alias gaa="git add ."
 alias gcam="git commit -a -m"
+
+zoxide init fish | source

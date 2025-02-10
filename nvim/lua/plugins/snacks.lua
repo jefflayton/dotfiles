@@ -14,9 +14,7 @@ return {
 		-- or leave it empty to use the default settings
 		-- refer to the configuration section below
 		bigfile = { enabled = true },
-		quickfile = { enabled = true },
-		statuscolumn = { enabled = true },
-		words = { enabled = true },
+		dim = { enabled = true },
 		explorer = {
 			enabled = true,
 			replace_netrw = true,
@@ -38,6 +36,9 @@ return {
 				},
 			},
 		},
+		quickfile = { enabled = true },
+		statuscolumn = { enabled = true },
+		words = { enabled = true },
 	},
 	keys = {
 		{
@@ -108,6 +109,12 @@ return {
 				spellsuggest_select()
 			end,
 			desc = "Spellcheck Suggestions",
+		},
+		{
+			"<leader>sd",
+			function()
+				require("snacks").dim()
+			end,
 		},
 	},
 }
