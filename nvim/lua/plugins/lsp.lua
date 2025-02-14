@@ -83,6 +83,22 @@ return {
 			ltex = {
 				settings = {
 					ltex = {
+						enabled = {
+							"bibtex",
+							"gitcommit",
+							"markdown",
+							"org",
+							"tex",
+							"restructuredtext",
+							"rsweave",
+							"latex",
+							"quarto",
+							"rmd",
+							"context",
+							"xhtml",
+							"mail",
+							"plaintext",
+						},
 						additionalRules = {
 							languageModel = "~/ngrams/",
 						},

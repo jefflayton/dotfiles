@@ -16,7 +16,7 @@ macos-titlebar-style = transparent
 shell-integration-features = no-cursor
 cursor-color = f5c2e7
 cursor-opacity = 0.7
-adjust-cursor-thickness = 50%
+adjust-cursor-thickness = 45%
 
 # Keybinds
 config-file = ./keybinds

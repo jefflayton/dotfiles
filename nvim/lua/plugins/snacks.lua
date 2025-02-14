@@ -14,26 +14,14 @@ return {
 		-- or leave it empty to use the default settings
 		-- refer to the configuration section below
 		bigfile = { enabled = true },
+		bufdelete = { enabled = true },
 		dim = { enabled = true },
-		explorer = {
-			enabled = true,
-			replace_netrw = true,
-		},
 		picker = {
 			enabled = true,
 			sources = {
 				files = pickerOpts,
 				grep = pickerOpts,
 				buffers = pickerOpts,
-				explorer = {
-					auto_close = true,
-					ignored = true,
-					hidden = true,
-					focus = "input",
-					matcher = {
-						fuzzy = false,
-					},
-				},
 			},
 		},
 		quickfile = { enabled = true },
@@ -75,13 +63,6 @@ return {
 				require("snacks").picker.diagnostics()
 			end,
 			desc = "Find Diagnostics",
-		},
-		{
-			"<leader>e",
-			function()
-				require("snacks").explorer.open()
-			end,
-			desc = "File Explorer",
 		},
 		{
 			"<leader>ss",
