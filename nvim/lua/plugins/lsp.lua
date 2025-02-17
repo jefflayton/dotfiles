@@ -5,6 +5,7 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"saghen/blink.cmp",
+		"echasnoviski/mini.nvim",
 		{
 			"sontungexpt/better-diagnostic-virtual-text",
 			lazy = true,
@@ -20,22 +21,25 @@ return {
 				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
 			end
 
-			local snacks = require("snacks")
+			local mini = require("mini.extra")
 			map("gd", function()
-				snacks.picker.lsp_definitions()
-			end, "Goto Definition")
+				mini.pickers.lsp({ scope = "definition" })
+			end, "LSP: Goto Definition")
 			map("gr", function()
-				snacks.picker.lsp_references()
+				mini.pickers.lsp({ scope = "references" })
 			end, "Goto References")
 			map("gI", function()
-				snacks.picker.lsp_implementations()
-			end, "Goto Implementations")
+				mini.pickers.lsp({ scope = "implementation" })
+			end, "Goto Implementation")
 			map("<leader>lD", function()
-				snacks.picker.lsp_type_definitions()
-			end, "Type Definitions")
+				mini.pickers.lsp({ scope = "type" })
+			end, "Type Definition")
 			map("<leader>ld", function()
-				snacks.picker.lsp_symbols()
-			end, "LSP Symbols")
+				mini.pickers.lsp({ scope = "document_symbol" })
+			end, "Document Symbols")
+			map("<leader>lw", function()
+				mini.pickers.lsp({ scope = "workspace_symbol" })
+			end, "Workspace Symbols")
 
 			map("<leader>lr", vim.lsp.buf.rename, "Rename")
 			map("<leader>ca", vim.lsp.buf.code_action, "Code Action")

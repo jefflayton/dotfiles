@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	version = "*",
+	version = "v12.0.4",
 	dependencies = {
 		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 	},
@@ -32,7 +32,7 @@ return {
 		},
 		snippets = { preset = "luasnip" },
 		sources = {
-			default = { "lsp", "lazydev", "path", "snippets", "buffer" },
+			default = { "buffer", "lsp", "lazydev", "path", "snippets" },
 			providers = {
 				lazydev = {
 					name = "LazyDev",

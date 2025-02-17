@@ -26,4 +26,4 @@ vim.g.markdown_fenced_languages = {
 	"ts=typescript",
 }
 
-vim.o.spell = true
+-- vim.o.spell = true

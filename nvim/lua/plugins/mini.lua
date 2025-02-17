@@ -23,10 +23,10 @@ return {
 		require("mini.extra").setup()
 		require("mini.indentscope").setup({ options = { border = "top" } })
 		require("mini.move").setup()
-		require("mini.pairs").setup()
+		require("mini.pick").setup()
 		require("mini.surround").setup()
 
-		-- Extra Configuration for mini.files
+		-- Configuration for mini.files
 		require("mini.files").setup({
 			mappings = {
 				synchronize = ":w<CR>",
@@ -43,13 +43,84 @@ return {
 			end,
 		})
 
+		-- Configuration for mini.pick
+		local pick = require("mini.pick")
+		pick.setup({
+			mappings = {
+				stop = "KJ",
+			},
+			options = {
+				use_cache = true,
+			},
+		})
+		vim.ui.select = pick.ui_select
+
 		require("which-key").add({
+			-- mini.files
 			{
 				"<leader>e",
 				function()
 					require("mini.files").open()
 				end,
 				desc = "Open mini.files",
+			},
+			-- mini.pick
+			{
+				"<leader>ff",
+				function()
+					pick.builtin.files({ tool = "rg" })
+				end,
+				desc = "Mini Pick: Start",
+			},
+			{
+				"<leader>fg",
+				function()
+					pick.builtin.grep_live({ tool = "rg", globs = { "node_modules/**" } })
+				end,
+				desc = "Mini Pick: Live Grep",
+			},
+			{
+				"<leader>fb",
+				function()
+					pick.builtin.buffers({
+						tool = "rg",
+					}, {
+						mappings = {
+							wipeout = {
+								char = "<C-d>",
+								func = function()
+									local items = pick.get_picker_items()
+									local target = pick.get_picker_matches()
+									--
+									-- Close the buffer
+									vim.api.nvim_buf_delete(target.current.bufnr, {})
+
+									table.remove(items, target.current_ind)
+
+									-- Update the list of buffers
+									pick.set_picker_items(items)
+								end,
+							},
+						},
+					})
+				end,
+				desc = "Mini Pick: Buffers",
+			},
+			{
+				"<leader>fD",
+				function()
+					extra.pickers.diagnostic({
+						scope = "all",
+					})
+				end,
+				desc = "Mini Extra: Diagnostics",
+			},
+			{
+				"<leader>fs",
+				function()
+					extra.pickers.buf_lines()
+				end,
+				desc = "Mini Extra: Buffer Search",
 			},
 		})
 	end,
