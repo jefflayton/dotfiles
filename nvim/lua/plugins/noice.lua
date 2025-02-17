@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy",
 	dependencies = {
 		"MunifTanjim/nui.nvim",
-		"echasnovski/mini.notify",
+		"echasnovski/mini.nvim",
 	},
 	opts = {
 		cmdline = {

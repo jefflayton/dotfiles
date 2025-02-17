@@ -23,7 +23,7 @@ return {
 		require("mini.extra").setup()
 		require("mini.indentscope").setup({ options = { border = "top" } })
 		require("mini.move").setup()
-		require("mini.pick").setup()
+		require("mini.pairs").setup()
 		require("mini.surround").setup()
 
 		-- Configuration for mini.files
@@ -46,9 +46,6 @@ return {
 		-- Configuration for mini.pick
 		local pick = require("mini.pick")
 		pick.setup({
-			mappings = {
-				stop = "KJ",
-			},
 			options = {
 				use_cache = true,
 			},
@@ -75,7 +72,7 @@ return {
 			{
 				"<leader>fg",
 				function()
-					pick.builtin.grep_live({ tool = "rg", globs = { "node_modules/**" } })
+					pick.builtin.grep_live({ tool = "rg", globs = { "!.git/**", "!node_modules/**" } })
 				end,
 				desc = "Mini Pick: Live Grep",
 			},
