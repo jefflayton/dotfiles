@@ -16,4 +16,4 @@ alias gcam="git commit -a -m"
 zoxide init fish | source
 
 # Initialize Node
-nvm use
+# nvm use

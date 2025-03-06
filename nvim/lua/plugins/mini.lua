@@ -20,11 +20,13 @@ return {
 	version = "*",
 	config = function()
 		require("mini.ai").setup()
-		require("mini.extra").setup()
 		require("mini.indentscope").setup({ options = { border = "top" } })
 		require("mini.move").setup()
 		require("mini.pairs").setup()
 		require("mini.surround").setup()
+
+		local extra = require("mini.extra")
+		extra.setup()
 
 		-- Configuration for mini.files
 		require("mini.files").setup({
@@ -52,6 +54,8 @@ return {
 		})
 		vim.ui.select = pick.ui_select
 
+		local pickOpts = { tool = "rg", globs = { "!.git/**", "!node_modules/**" } }
+
 		require("which-key").add({
 			-- mini.files
 			{
@@ -65,23 +69,21 @@ return {
 			{
 				"<leader>ff",
 				function()
-					pick.builtin.files({ tool = "rg" })
+					pick.builtin.files(pickOpts)
 				end,
 				desc = "Mini Pick: Start",
 			},
 			{
 				"<leader>fg",
 				function()
-					pick.builtin.grep_live({ tool = "rg", globs = { "!.git/**", "!node_modules/**" } })
+					pick.builtin.grep_live(pickOpts)
 				end,
 				desc = "Mini Pick: Live Grep",
 			},
 			{
 				"<leader>fb",
 				function()
-					pick.builtin.buffers({
-						tool = "rg",
-					}, {
+					pick.builtin.buffers(pickOpts, {
 						mappings = {
 							wipeout = {
 								char = "<C-d>",
@@ -102,15 +104,6 @@ return {
 					})
 				end,
 				desc = "Mini Pick: Buffers",
-			},
-			{
-				"<leader>fD",
-				function()
-					extra.pickers.diagnostic({
-						scope = "all",
-					})
-				end,
-				desc = "Mini Extra: Diagnostics",
 			},
 			{
 				"<leader>fs",

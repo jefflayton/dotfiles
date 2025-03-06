@@ -40,6 +40,11 @@ return {
 			map("<leader>lw", function()
 				mini.pickers.lsp({ scope = "workspace_symbol" })
 			end, "Workspace Symbols")
+			map("<leader>fd", function()
+				mini.pickers.diagnostic({
+					scope = "all",
+				})
+			end, "LSP: Diagnostics")
 
 			map("<leader>lr", vim.lsp.buf.rename, "Rename")
 			map("<leader>ca", vim.lsp.buf.code_action, "Code Action")

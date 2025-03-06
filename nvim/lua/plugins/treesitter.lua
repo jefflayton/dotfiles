@@ -37,8 +37,7 @@ return {
 			},
 			indent = { enable = true },
 			autotag = {
-				enable = true,
-				filetypes = { "html", "jsx", "tsx" },
+				enable = false,
 			},
 			refactor = {
 				highlight_definitions = {

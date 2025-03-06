@@ -6,14 +6,7 @@ return {
 			group = "Pencil",
 			pattern = "text",
 			callback = function()
-				vim.cmd("Pencil")
-			end,
-		})
-		vim.api.nvim_create_autocmd("FileType", {
-			group = "Pencil",
-			pattern = "markdown",
-			callback = function()
-				vim.cmd("Pencil")
+				vim.cmd("PencilSoft")
 			end,
 		})
 	end,
