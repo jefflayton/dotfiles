@@ -20,9 +20,10 @@ keybind = ctrl+space>0=goto_tab:10
 keybind = ctrl+space>x=close_surface
 
 # Splits
-keybind = ctrl+space>'=new_split:up
-keybind = ctrl+space>shift+'=new_split:down
-keybind = ctrl+space>shift+5=new_split:right
+keybind = ctrl+space>shift+s=new_split:up
+keybind = ctrl+space>s=new_split:down
+keybind = ctrl+space>v=new_split:left
+keybind = ctrl+space>shift+v=new_split:right
 
 # Move between splits
 keybind = ctrl+space>l=goto_split:right
