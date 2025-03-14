@@ -1,31 +1,19 @@
 return {
 	"stevearc/conform.nvim",
-	dependencies = {
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
 	config = function()
 		local conform = require("conform")
 
-		require("mason-tool-installer").setup({
-			ensure_installed = {
-				"prettierd",
-				"stylua",
-				"google-java-format",
-				"bibtex-tidy",
-			},
-		})
-
 		local formatters_by_ft = {
 			go = { "gofmt" },
-			html = { "prettierd" },
+			html = { "prettier" },
 			java = { "google-java-format" },
-			javascript = { "prettierd" },
-			json = { "prettierd" },
-			jsonc = { "prettierd" },
+			javascript = { "prettier" },
+			json = { "prettier" },
+			jsonc = { "prettier" },
 			latex = { "bibtex-tidy" },
 			lua = { "stylua" },
-			typescript = { "prettierd" },
-			typescriptreact = { "prettierd" },
+			typescript = { "prettier" },
+			typescriptreact = { "prettier" },
 			yaml = { "prettier" },
 			zig = { "zigfmt" },
 		}
@@ -39,7 +27,7 @@ return {
 			if is_deno then
 				return { "deno_fmt" }
 			else
-				return { "prettierd" }
+				return { "prettier" }
 			end
 		end
 
