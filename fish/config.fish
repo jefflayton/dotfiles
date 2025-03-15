@@ -12,6 +12,7 @@ alias gcb="git checkout -b"
 alias gco="git checkout origin"
 alias gaa="git add ."
 alias gcam="git commit -a -m"
+alias nvim2="~/Downloads/nvim-macos-arm64/bin/nvim"
 
 zoxide init fish | source
 

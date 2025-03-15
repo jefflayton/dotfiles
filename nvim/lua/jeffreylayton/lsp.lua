@@ -48,6 +48,7 @@ local servers = {
 	"denols",
 	"cssls",
 	"gopls",
+	"harperls",
 	"html",
 	"jdtls",
 	"jsonls",
