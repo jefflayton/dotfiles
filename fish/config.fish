@@ -1,5 +1,6 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+and not set -q TMUX
+    tmux
 end
 
 fish_user_key_bindings

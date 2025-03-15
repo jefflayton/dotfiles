@@ -21,7 +21,21 @@ return {
 	config = function()
 		require("mini.ai").setup()
 		require("mini.indentscope").setup({ options = { border = "top" } })
-		require("mini.move").setup()
+		require("mini.move").setup({
+			mappings = {
+				-- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
+				left = "<leader>h",
+				down = "<leader>j",
+				up = "<leader>k",
+				right = "<leader>l",
+
+				-- Move current line in Normal mode
+				line_left = "<leader>h",
+				line_down = "<leader>j",
+				line_up = "<leader>k",
+				line_right = "<leader>l",
+			},
+		})
 		require("mini.pairs").setup()
 		require("mini.surround").setup()
 
