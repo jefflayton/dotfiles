@@ -15,7 +15,7 @@ return {
 		-- refer to the configuration section below
 		bigfile = { enabled = true },
 		bufdelete = { enabled = true },
-		dim = { enabled = true },
+		dim = { enabled = false },
 		notify = { enabled = true },
 		-- picker = {
 		-- 	enabled = true,
