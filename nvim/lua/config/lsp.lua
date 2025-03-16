@@ -45,7 +45,6 @@ vim.lsp.config("*", {
 })
 
 local servers = {
-	"denols",
 	"cssls",
 	"gopls",
 	"harperls",
@@ -54,7 +53,18 @@ local servers = {
 	"jsonls",
 	"luals",
 	"ltex",
-	"ts_ls",
 	"zls",
 }
 vim.lsp.enable(servers)
+
+-- Enable denols or ts_ls based on project
+local cwd = vim.fn.getcwd()
+local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
+	or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
+	or vim.fn.filereadable(cwd .. "/deno.lock") == 1
+
+if is_deno then
+	vim.lsp.enable("denols")
+else
+	vim.lsp.enable("ts_ls")
+end
