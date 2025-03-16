@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	version = "v0.12.4",
+	version = "v0.13.1",
 	dependencies = {
 		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 	},
@@ -37,24 +37,12 @@ return {
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
+					score_offset = 100, -- show at a higher priority than lsp
 				},
 				snippets = {
-					min_keyword_length = 1,
-					score_offset = 4,
-				},
-				lsp = {
-					name = "LSP",
-					module = "blink.cmp.sources.lsp",
-					min_keyword_length = 0,
-					score_offset = 3,
-				},
-				path = {
-					min_keyword_length = 0,
-					score_offset = 2,
-				},
-				buffer = {
-					min_keyword_length = 1,
-					score_offset = 1,
+					name = "Snippets",
+					module = "blink.cmp.sources.snippets",
+					min_keyword_length = 3,
 				},
 			},
 		},
