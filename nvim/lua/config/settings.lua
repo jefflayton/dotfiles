@@ -25,3 +25,6 @@ vim.opt.termguicolors = true
 vim.g.markdown_fenced_languages = {
 	"ts=typescript",
 }
+
+-- Enable virtual lines for diagnostic
+vim.diagnostic.config({ virtual_lines = true })

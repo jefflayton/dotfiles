@@ -3,8 +3,6 @@ local mini_extra = require("mini.extra")
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		require("better-diagnostic-virtual-text.api").setup_buf(args.buf, {})
-
 		local nmap = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. desc })
 		end
