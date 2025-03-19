@@ -20,8 +20,11 @@ zoxide init fish | source
 nvm use
 
 # pnpm
-set -gx PNPM_HOME "/Users/jeffreylayton/Library/pnpm"
+set -gx PNPM_HOME "$HOME/Library/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+# Initialize Oh My Posh
+oh-my-posh init fish --config "$HOME/.config/ohmyposh/config.json" | source
