@@ -33,15 +33,9 @@
             "revert_icon": "\uf0e2 ",
             "tag_icon": "\uf412 "
           },
-          "template": "{{ .HEAD }}<#F5C2E7>{{ if or .Working.Changed .Index.Changed }} ✗{{ end }}</> ",
+          "template": "{{ .HEAD }} ",
           "style": "plain",
           "type": "git"
-        },
-        {
-          "foreground": "#BF616A",
-          "style": "plain",
-          "template": " \u2717",
-          "type": "status"
         },
         {
           "foreground": "#ACB0BE",
