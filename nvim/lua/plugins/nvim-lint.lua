@@ -10,7 +10,7 @@ return {
 				or vim.fn.filereadable(cwd .. "/deno.lock") == 1
 
 			if is_deno then
-				return { "deno" }
+				return {}
 			else
 				return { "eslint_d" }
 			end
