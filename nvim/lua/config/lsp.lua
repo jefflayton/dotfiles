@@ -1,5 +1,5 @@
-local capabilities = require("blink.cmp").get_lsp_capabilities()
 local mini_extra = require("mini.extra")
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		nmap("grw", function()
 			mini_extra.pickers.lsp({ scope = "workspace_symbol" })
 		end, "Workspace Symbols")
-		nmap("graD", function()
+		nmap("grf", function()
 			mini_extra.pickers.diagnostic({
 				scope = "all",
 			})
