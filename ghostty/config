@@ -23,9 +23,9 @@ config-file = ./keybinds
 
 # Miscellaneous
 shell-integration = fish
-term = xterm
 working-directory = home
 macos-option-as-alt = true
 confirm-close-surface = true
 mouse-hide-while-typing = true
 window-inherit-working-directory = true
+macos-icon = xray
