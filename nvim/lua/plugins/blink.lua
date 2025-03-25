@@ -1,10 +1,12 @@
 return {
 	"saghen/blink.cmp",
-	version = "v0.14.0",
+	version = "v1.0.0",
 	dependencies = {
 		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 	},
 	opts = {
+		fuzzy = { implementation = "lua" },
+		cmdline = { completion = { menu = { auto_show = true } }, keymap = { preset = "inherit" } },
 		keymap = {
 			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 			["<C-e>"] = { "hide", "fallback" },
@@ -37,7 +39,7 @@ return {
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
-					score_offset = 100, -- show at a higher priority than lsp
+					score_offset = 100, -- Show at a higher priority than lsp
 				},
 				snippets = {
 					name = "Snippets",
