@@ -42,9 +42,9 @@ vim.lsp.config("*", {
 	capabilities = capabilities,
 })
 
-local servers = {
-	"cssls",
+vim.lsp.enable({
 	"gopls",
+	"cssls",
 	"harperls",
 	"html",
 	"jdtls",
@@ -52,10 +52,9 @@ local servers = {
 	"luals",
 	"ltex",
 	"zls",
-}
-vim.lsp.enable(servers)
+})
 
--- Enable denols or ts_ls based on project
+-- Conditionally Enable JavaScript Language Servers
 local cwd = vim.fn.getcwd()
 local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
 	or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
@@ -64,5 +63,5 @@ local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
 if is_deno then
 	vim.lsp.enable("denols")
 else
-	vim.lsp.enable("ts_ls")
+	vim.lsp.enable({ "eslint", "ts_ls" })
 end
