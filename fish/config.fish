@@ -5,14 +5,19 @@ end
 
 fish_user_key_bindings
 
+set -gx EDITOR nvim
+
 alias gs="git status"
 alias gp="git push"
 alias gfo="git fetch origin"
 alias gpo="git pull origin"
 alias gcb="git checkout -b"
 alias gco="git checkout origin"
+alias gc="git checkout"
 alias gaa="git add ."
+alias ga="git add"
 alias gcam="git commit -a -m"
+alias gcm="git commit -m"
 
 zoxide init fish | source
 
