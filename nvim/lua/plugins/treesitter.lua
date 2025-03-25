@@ -12,6 +12,7 @@ return {
 				"csv",
 				"go",
 				"html",
+				"http",
 				"java",
 				"javascript",
 				"jsdoc",
