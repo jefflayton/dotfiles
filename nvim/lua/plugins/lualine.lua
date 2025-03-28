@@ -32,8 +32,8 @@ return {
 						path = 1,
 					},
 				},
-				lualine_x = { "diagnostics" },
-				lualine_y = { "diff", get_words },
+				lualine_x = { "diagnostics", "diff" },
+				lualine_y = { "location", get_words },
 				lualine_z = { "branch" },
 			},
 		})
