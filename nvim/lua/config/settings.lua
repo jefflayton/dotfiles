@@ -27,4 +27,4 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- Enable virtual lines for diagnostic
-vim.diagnostic.config({ virtual_lines = true })
+vim.diagnostic.config({ virtual_lines = { current_line=true } })
