@@ -27,4 +27,12 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- Enable virtual lines for diagnostic
-vim.diagnostic.config({ virtual_lines = { current_line=true } })
+vim.diagnostic.config({ virtual_lines = { current_line = true } })
+
+-- Disable the auto comment on newlines after a comment
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	callback = function()
+		vim.opt.formatoptions:remove({ "c", "r", "o" })
+	end,
+})
