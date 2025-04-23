@@ -48,7 +48,6 @@ vim.lsp.enable({
 	"harperls",
 	"html",
 	"jdtls",
-	"jsonls",
 	"luals",
 	"ltex",
 	"zls",

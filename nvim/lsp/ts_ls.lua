@@ -19,4 +19,5 @@ return {
 			vim.lsp.buf.execute_command(params)
 		end, {})
 	end,
+	workspace_required = true,
 }

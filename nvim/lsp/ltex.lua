@@ -1,7 +1,6 @@
 local filetypes = {
 	"bib",
 	"gitcommit",
-	"markdown",
 	"org",
 	"plaintex",
 	"rst",

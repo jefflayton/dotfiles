@@ -5,7 +5,9 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
 	},
-	config = function()
-		require("markview").setup()
-	end,
+	opts = {
+		latex = {
+			enable = true,
+		},
+	},
 }

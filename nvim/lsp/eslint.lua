@@ -81,4 +81,5 @@ return {
 			return {}
 		end,
 	},
+	workspace_required = true,
 }

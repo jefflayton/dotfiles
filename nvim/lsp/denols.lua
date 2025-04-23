@@ -74,4 +74,5 @@ return {
 		["textDocument/typeDefinition"] = denols_handler,
 		["textDocument/references"] = denols_handler,
 	},
+	workspace_required = true,
 }
