@@ -7,6 +7,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. desc })
 		end
 
+		local thing = "thing"
+
 		nmap("grd", function()
 			mini_extra.pickers.lsp({ scope = "definition" })
 		end, "Goto Definition")
