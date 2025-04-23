@@ -11,6 +11,7 @@ return {
 				"cpp",
 				"css",
 				"csv",
+				"fish",
 				"go",
 				"html",
 				"http",
