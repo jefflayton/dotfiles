@@ -13,6 +13,8 @@ return {
 
 		local debuggers = vim.fn.expand("$HOME/tools/debuggers")
 
+		local js_debug_path = vim.fn.expand("$HOME/js-debug/src")
+
 		local js_debug_path = vim.fn.expand(debuggers .. "/js-debug/src")
 		dap.adapters["pwa-node"] = {
 			type = "server",
@@ -45,6 +47,18 @@ return {
 						program = "${file}",
 						cwd = "${workspaceFolder}",
 						attachSimplePort = 9229,
+					},
+					{
+						name = "Attach – Supabase Edge Functions",
+						type = "pwa-node",
+						address = "127.0.0.1",
+						request = "attach",
+						localRoot = "${workspaceFolder}/supabase/functions/",
+						sourceMaps = true,
+						enableContentValidation = false,
+						restart = true,
+						timeout = 1000000,
+						port = 8083,
 					},
 				}
 			else
@@ -118,7 +132,8 @@ return {
 			api.nvim_set_keymap("n", "K", '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
 		end
 
-		dap.listeners.after["event_terminated"]["me"] = function()
+		local disconnect = { "event_terminated", "event_exited", "disconnect" }
+		local function restore()
 			for _, keymap in pairs(keymap_restore) do
 				if keymap.rhs then
 					api.nvim_buf_set_keymap(
@@ -139,6 +154,9 @@ return {
 			end
 			keymap_restore = {}
 		end
+		dap.listeners.after.event_terminated["me"] = restore
+		dap.listeners.after.event_exited["me"] = restore
+		dap.listeners.after.disconnect["me"] = restore
 
 		require("which-key").add({
 			-- dap
