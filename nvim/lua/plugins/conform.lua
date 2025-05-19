@@ -6,7 +6,7 @@ return {
 		local formatters_by_ft = {
 			go = { "gofmt" },
 			html = { "prettier" },
-			java = { "google-java-format" },
+			-- java = { "google-java-format" },
 			javascript = { "prettier" },
 			json = { "prettier" },
 			jsonc = { "prettier" },
@@ -49,14 +49,14 @@ return {
 		})
 
 		-- Adjust settings for Java. google-java-formatter uses 2 spaces
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = "java",
-			callback = function()
-				vim.opt_local.tabstop = 2
-				vim.opt_local.shiftwidth = 2
-				vim.opt_local.softtabstop = 2
-			end,
-		})
+		-- vim.api.nvim_create_autocmd("FileType", {
+		-- 	pattern = "java",
+		-- 	callback = function()
+		-- 		vim.opt_local.tabstop = 2
+		-- 		vim.opt_local.shiftwidth = 2
+		-- 		vim.opt_local.softtabstop = 2
+		-- 	end,
+		-- })
 
 		require("which-key").add({
 			{

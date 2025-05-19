@@ -33,3 +33,8 @@ end
 
 # Initialize Oh My Posh
 oh-my-posh init fish --config "$HOME/.config/ohmyposh/config.json" | source
+
+# Ngrok Completions
+if command -v ngrok &>/dev/null
+  eval "$(ngrok completion)"
+end

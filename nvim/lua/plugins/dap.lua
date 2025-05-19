@@ -11,8 +11,9 @@ return {
 		local dap = require("dap")
 		local dapui = require("dapui")
 
-		local js_debug_path = vim.fn.expand("$HOME/js-debug/src")
+		local debuggers = vim.fn.expand("$HOME/tools/debuggers")
 
+		local js_debug_path = vim.fn.expand(debuggers .. "/js-debug/src")
 		dap.adapters["pwa-node"] = {
 			type = "server",
 			host = "localhost",
@@ -60,19 +61,43 @@ return {
 		end
 
 		dap.configurations.javascript = jsConfig()
-
 		dap.configurations.typescript = jsConfig()
 
-		-- Automattically open and dclose dap-view
+		local codelldb_path = vim.fn.expand(debuggers .. "/codelldb/extension/adapter/executable")
+		dap.adapters.codelldb = {
+			type = "server",
+			host = "localhost",
+			port = "${port}",
+			executable = {
+				command = codelldb_path,
+				args = { "--port", "${port}" },
+			},
+		}
+
+		dap.configurations.cpp = {
+			{
+				name = "Launch file",
+				type = "codelldb",
+				request = "launch",
+				program = function()
+					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+				end,
+				cwd = "${workspaceFolder}",
+				stopOnEntry = false,
+				args = {}, -- CLI args to your program
+			},
+		}
+
+		dap.configurations.c = dap.configurations.cpp
+		dap.configurations.zig = dap.configurations.cpp
+
+		-- Automatically open and close dap-view
 		dap.listeners.before.attach.dapui_config = function()
 			dapui.open()
 		end
 		dap.listeners.before.launch.dapui_config = function()
 			dapui.open()
 		end
-		-- dap.listeners.before.event_terminated.dapui_config = function()
-		-- 	dapui.close()
-		-- end
 		dap.listeners.before.event_exited.dapui_config = function()
 			dapui.close()
 		end

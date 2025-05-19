@@ -24,6 +24,7 @@ return {
 		"eslint.config.ts",
 		"eslint.config.mts",
 		"eslint.config.cts",
+		"package.json",
 	},
 	settings = {
 		validate = "on",
