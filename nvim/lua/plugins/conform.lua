@@ -12,6 +12,7 @@ return {
 			jsonc = { "prettier" },
 			latex = { "bibtex-tidy" },
 			lua = { "stylua" },
+			sql = { "sql_formatter" },
 			typescript = { "prettier" },
 			typescriptreact = { "prettier" },
 			yaml = { "prettier" },
@@ -62,7 +63,7 @@ return {
 			{
 				"<leader>fm",
 				function()
-					conform.format({ bufnr = vim.api.nvim_get_current_buf() })
+					conform.format({ bufnr = vim.api.nvim_get_current_buf(), async = true })
 				end,
 				desc = "Format",
 			},
