@@ -68,8 +68,16 @@ return {
 		})
 		vim.ui.select = pick.ui_select
 
-		local pickOpts =
-			{ tool = "rg", globs = { "!.git/**", "!node_modules/**", "!ios/**", "!android/**", "!dist/**" } }
+		local pickOpts = {
+			tool = "rg",
+			globs = {
+				"!**/.git/**",
+				"!**/node_modules/**",
+				"!**/!ios/**",
+				"!**/android/**",
+				"!**/dist/**",
+			},
+		}
 
 		require("which-key").add({
 			-- mini.files
