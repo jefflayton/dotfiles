@@ -18,6 +18,7 @@ alias gaa="git add ."
 alias ga="git add"
 alias gcam="git commit -a -m"
 alias gcm="git commit -m"
+alias ngrokh="ngrok http --url=normally-flexible-spider.ngrok-free.app"
 
 zoxide init fish | source
 
