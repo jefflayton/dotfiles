@@ -38,3 +38,7 @@ oh-my-posh init fish --config "$HOME/.config/ohmyposh/config.json" | source
 if command -v ngrok &>/dev/null
   eval "$(ngrok completion)"
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
