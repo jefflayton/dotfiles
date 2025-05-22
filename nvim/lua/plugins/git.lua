@@ -5,12 +5,12 @@ return {
 		"sindrets/diffview.nvim",
 		keys = {
 			{
-				"<leader>gd",
+				"<leader>dvo",
 				"<CMD>DiffviewOpen<CR>",
 				desc = "Git: Diffview Open",
 			},
 			{
-				"<leader>gdc",
+				"<leader>dvc",
 				"<CMD>DiffviewClose<CR>",
 				desc = "Git: Diffview Close",
 			},

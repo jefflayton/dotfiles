@@ -85,101 +85,78 @@ return {
 		dap.listeners.before.event_exited.dapui_config = function()
 			dapui.close()
 		end
-
-		-- Map K to hover while session is active
-		local api = vim.api
-		local keymap_restore = {}
-		dap.listeners.after["event_initialized"]["me"] = function()
-			for _, buf in pairs(api.nvim_list_bufs()) do
-				local keymaps = api.nvim_buf_get_keymap(buf, "n")
-				for _, keymap in pairs(keymaps) do
-					if keymap.lhs == "K" then
-						table.insert(keymap_restore, keymap)
-						api.nvim_buf_del_keymap(buf, "n", "K")
-					end
-				end
-			end
-			api.nvim_set_keymap("n", "K", '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
-		end
-
-		local disconnect = { "event_terminated", "event_exited", "disconnect" }
-		local function restore()
-			for _, keymap in pairs(keymap_restore) do
-				if keymap.rhs then
-					api.nvim_buf_set_keymap(
-						keymap.buffer,
-						keymap.mode,
-						keymap.lhs,
-						keymap.rhs,
-						{ silent = keymap.silent == 1 }
-					)
-				elseif keymap.callback then
-					vim.keymap.set(
-						keymap.mode,
-						keymap.lhs,
-						keymap.callback,
-						{ buffer = keymap.buffer, silent = keymap.silent == 1 }
-					)
-				end
-			end
-			keymap_restore = {}
-		end
-		dap.listeners.after.event_terminated["me"] = restore
-		dap.listeners.after.event_exited["me"] = restore
-		dap.listeners.after.disconnect["me"] = restore
-
-		require("which-key").add({
-			-- dap
-			{
-				"<leader>dc",
-				function()
-					dap.continue()
-				end,
-				desc = "DAP: Continue",
-			},
-			{
-				"<leader>do",
-				function()
-					dap.step_over()
-				end,
-				desc = "DAP: Step Over",
-			},
-			{
-				"<leader>dO",
-				function()
-					dap.step_out()
-				end,
-				desc = "DAP: Step Out",
-			},
-			{
-				"<leader>di",
-				function()
-					dap.step_into()
-				end,
-				desc = "DAP: Step Into",
-			},
-			{
-				"<leader>db",
-				function()
-					dap.toggle_breakpoint()
-				end,
-				desc = "DAP: Toggle Breakpoint",
-			},
-			{
-				"<leader>dl",
-				function()
-					dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-				end,
-				desc = "DAP: Set Log Point",
-			},
-			-- dap-view
-			{
-				"<leader>du",
-				function()
-					dapui.toggle()
-				end,
-				desc = "DAP: Toggle View",
-			},
-		})
 	end,
+	keys = {
+		-- dap
+		{
+			"<leader>ddc",
+			function()
+				require("dap").continue()
+			end,
+			desc = "DAP: Continue",
+		},
+		{
+			"<leader>ddo",
+			function()
+				require("dap").step_over()
+			end,
+			desc = "DAP: Step Over",
+		},
+		{
+			"<leader>ddO",
+			function()
+				require("dap").step_out()
+			end,
+			desc = "DAP: Step Out",
+		},
+		{
+			"<leader>ddi",
+			function()
+				require("dap").step_into()
+			end,
+			desc = "DAP: Step Into",
+		},
+		{
+			"<leader>ddb",
+			function()
+				require("dap").toggle_breakpoint()
+			end,
+			desc = "DAP: Toggle Breakpoint",
+		},
+		{
+			"<leader>ddl",
+			function()
+				require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+			end,
+			desc = "DAP: Set Log Point",
+		},
+		{
+			"<leader>ddp",
+			function()
+				require("dap.ui.widgets").preview()
+			end,
+		},
+		{
+			"<leader>ddf",
+			function()
+				local widgets = require("dap.ui.widgets")
+				widgets.centered_float(widgets.frames)
+			end,
+		},
+		{
+			"<leader>dds",
+			function()
+				local widgets = require("dap.ui.widgets")
+				widgets.centered_float(widgets.scopes)
+			end,
+		},
+		-- dap-view
+		{
+			"<leader>ddu",
+			function()
+				require("dapui").toggle()
+			end,
+			desc = "DAP: Toggle View",
+		},
+	},
 }
