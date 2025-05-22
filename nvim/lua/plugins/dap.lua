@@ -13,6 +13,7 @@ return {
 
 		local debuggers = vim.fn.expand("$HOME/tools/debuggers")
 
+		-- JavaScript/TypeScript
 		local js_debug_path = vim.fn.expand(debuggers .. "/js-debug/src")
 		dap.adapters["pwa-node"] = {
 			type = "server",
@@ -24,72 +25,55 @@ return {
 			},
 		}
 
-		local jsConfig = function()
-			local cwd = vim.fn.getcwd()
-			local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
-				or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
-				or vim.fn.filereadable(cwd .. "/deno.lock") == 1
-
-			if is_deno then
-				return {
-					{
-						type = "pwa-node",
-						request = "launch",
-						name = "Launch file",
-						runtimeExecutable = "deno",
-						runtimeArgs = {
-							"run",
-							"--inspect-wait",
-							"--allow-all",
-						},
-						program = "${file}",
-						cwd = "${workspaceFolder}",
-						attachSimplePort = 9229,
-					},
-				}
-			else
-				return {
-					{
-						type = "pwa-node",
-						request = "launch",
-						name = "Launch file",
-						program = "${file}",
-						cwd = "${workspaceFolder}",
-					},
-				}
-			end
-		end
-
-		dap.configurations.javascript = jsConfig()
-		dap.configurations.typescript = jsConfig()
-
-		local codelldb_path = vim.fn.expand(debuggers .. "/codelldb/extension/adapter/executable")
-		dap.adapters.codelldb = {
-			type = "server",
-			host = "localhost",
-			port = "${port}",
-			executable = {
-				command = codelldb_path,
-				args = { "--port", "${port}" },
+		dap.configurations.javascript = {
+			{
+				type = "pwa-node",
+				request = "launch",
+				name = "Node: Launch file",
+				program = "${file}",
+				cwd = "${workspaceFolder}",
+			},
+			{
+				type = "pwa-node",
+				request = "launch",
+				name = "Deno: Launch file",
+				runtimeExecutable = "deno",
+				runtimeArgs = {
+					"run",
+					"--inspect-wait",
+					"--allow-all",
+				},
+				program = "${file}",
+				cwd = "${workspaceFolder}",
+				attachSimplePort = 9229,
 			},
 		}
+		dap.configurations.typescript = dap.configurations.javascript
 
-		dap.configurations.cpp = {
+		-- C/C++/Zig
+		local codelldb_path = vim.fn.expand(debuggers .. "/codelldb/extension/adapter/codelldb")
+		dap.adapters.codelldb = {
+			type = "executable",
+			command = codelldb_path,
+		}
+
+		dap.configurations.zig = {
 			{
-				name = "Launch file",
+				name = "Debug Zig",
 				type = "codelldb",
 				request = "launch",
+				-- Ask for the path, default to the zig-cache bin
 				program = function()
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					local fname = vim.fn.expand("%:t:r") -- e.g. “test” from “test.zig”
+					local default = vim.fn.getcwd() .. "/zig-out/bin/" .. fname
+					return vim.fn.input("Path to executable: ", default, "file")
 				end,
 				cwd = "${workspaceFolder}",
+				args = {},
 				stopOnEntry = false,
-				args = {}, -- CLI args to your program
+				runInTerminal = false,
 			},
 		}
-
-		dap.configurations.c = dap.configurations.cpp
-		dap.configurations.zig = dap.configurations.cpp
 
 		-- Automatically open and close dap-view
 		dap.listeners.before.attach.dapui_config = function()
