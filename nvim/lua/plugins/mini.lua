@@ -94,7 +94,7 @@ return {
 				function()
 					pick.builtin.files(pickOpts)
 				end,
-				desc = "Mini Pick: Start",
+				desc = "Mini Pick: Files",
 			},
 			{
 				"<leader>fg",
