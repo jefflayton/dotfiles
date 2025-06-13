@@ -11,6 +11,7 @@ return {
 		-- other adapters
 		"hammerlink/neotest-deno",
 		"lawrence-laz/neotest-zig",
+		"nvim-neotest/neotest-jest",
 	},
 	keys = {
 		{
@@ -45,6 +46,10 @@ return {
 					dap = {
 						adapter = "lldb",
 					},
+				}),
+				require("neotest-jest")({
+					jestCommand = require("neotest-jest.jest-util").getJestCommand(vim.fn.expand("%:p:h"))
+						.. " --watch",
 				}),
 			},
 		})
