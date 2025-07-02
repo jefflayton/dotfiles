@@ -1,3 +1,5 @@
 .DS_Store
 nvim/lazy-lock.json
 nvim/spell/*
+github-copilot/
+skhd/

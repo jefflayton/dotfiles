@@ -43,6 +43,7 @@ vim.lsp.config("*", {
 })
 
 vim.lsp.enable({
+	"astro",
 	"cssls",
 	"denols",
 	"eslint",
