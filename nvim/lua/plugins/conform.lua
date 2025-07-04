@@ -42,6 +42,11 @@ return {
 
 		conform.setup({
 			formatters_by_ft = formatters_by_ft,
+			formatters = {
+				deno_fmt = {
+					cwd = require("conform.util").root_file({ "deno.json", "deno.jsonc" }),
+				},
+			},
 		})
 
 		vim.api.nvim_create_autocmd("BufWritePre", {
