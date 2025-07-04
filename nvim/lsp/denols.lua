@@ -1,3 +1,5 @@
+local lsp = vim.lsp
+
 local function virtual_text_document_handler(uri, res, client)
 	if not res then
 		return nil
@@ -15,7 +17,7 @@ local function virtual_text_document_handler(uri, res, client)
 	vim.api.nvim_set_option_value("readonly", true, { buf = bufnr })
 	vim.api.nvim_set_option_value("modified", false, { buf = bufnr })
 	vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
-	vim.lsp.buf_attach_client(bufnr, client.id)
+	lsp.buf_attach_client(bufnr, client.id)
 end
 
 local function virtual_text_document(uri, client)
@@ -43,11 +45,12 @@ local function denols_handler(err, result, ctx, config)
 		end
 	end
 
-	vim.lsp.handlers[ctx.method](err, result, ctx, config)
+	lsp.handlers[ctx.method](err, result, ctx, config)
 end
 
 return {
 	cmd = { "deno", "lsp" },
+	cmd_env = { NO_COLOR = true },
 	filetypes = {
 		"javascript",
 		"javascriptreact",
@@ -56,7 +59,11 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
-	root_markers = { "deno.json", "deno.jsonc" },
+	root_dir = function(bufnr, on_dir)
+		local fname = vim.api.nvim_buf_get_name(bufnr)
+		on_dir(require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(fname))
+	end,
+	workspace_required = true,
 	settings = {
 		deno = {
 			enable = true,
@@ -74,5 +81,19 @@ return {
 		["textDocument/typeDefinition"] = denols_handler,
 		["textDocument/references"] = denols_handler,
 	},
-	workspace_required = true,
+	on_attach = function(client, bufnr)
+		vim.api.nvim_buf_create_user_command(bufnr, "LspDenolsCache", function()
+			client:exec_cmd({
+				command = "deno.cache",
+				arguments = { {}, vim.uri_from_bufnr(bufnr) },
+			}, { bufnr = bufnr }, function(err, _result, ctx)
+				if err then
+					local uri = ctx.params.arguments[2]
+					vim.api.nvim_err_writeln("cache command failed for " .. vim.uri_to_fname(uri))
+				end
+			end)
+		end, {
+			desc = "Cache a module and all of its dependencies.",
+		})
+	end,
 }

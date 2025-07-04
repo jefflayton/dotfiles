@@ -6,6 +6,7 @@ return {
 		"nvim-tree/nvim-web-devicons",
 	},
 	opts = {
+		experimental = { check_rtp = false },
 		latex = {
 			enable = true,
 		},

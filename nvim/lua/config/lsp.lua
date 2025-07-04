@@ -46,7 +46,6 @@ vim.lsp.enable({
 	"astro",
 	"cssls",
 	"denols",
-	"eslint",
 	"gopls",
 	"harperls",
 	"html",
