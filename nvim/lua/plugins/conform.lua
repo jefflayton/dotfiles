@@ -10,6 +10,7 @@ return {
 			html = { "prettier" },
 			java = { "google-java-format" },
 			javascript = { "prettier" },
+			javascriptreact = { "prettier" },
 			json = { "prettier" },
 			jsonc = { "prettier" },
 			latex = { "bibtex-tidy" },

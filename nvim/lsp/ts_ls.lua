@@ -9,6 +9,7 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
+	root_markers = {},
 	root_dir = function(bufnr, on_dir)
 		local fname = vim.api.nvim_buf_get_name(bufnr)
 		on_dir(require("lspconfig").util.root_pattern("tsconfig.json", "jsconfig.json")(fname))

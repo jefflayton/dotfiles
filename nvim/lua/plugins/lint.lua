@@ -1,7 +1,7 @@
 return {
 	"mfussenegger/nvim-lint",
 	config = function()
-		require("lint").linters_by_ft = {
+		local linters_by_ft = {
 			javascript = { "eslint_d", "deno" },
 			javascriptreact = { "eslint_d", "deno" },
 			json = { "eslint_d", "deno" },
@@ -10,10 +10,31 @@ return {
 			typescriptreact = { "eslint_d", "deno" },
 		}
 
-		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+		local jsLinter = function()
+			local cwd = vim.fn.getcwd()
+			local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
+				or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
+				or vim.fn.filereadable(cwd .. "/deno.lock") == 1
+
+			if is_deno then
+				return { "deno" }
+			else
+				return { "eslint_d" }
+			end
+		end
+
+		linters_by_ft.javascript = jsLinter
+		linters_by_ft.javascriptreact = jsLinter
+		linters_by_ft.json = jsLinter
+		linters_by_ft.jsonc = jsLinter
+		linters_by_ft.typescript = jsLinter
+		linters_by_ft.typescriptreact = jsLinter
+
+		require("lint").linters_by_ft = linters_by_ft
+
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			pattern = "*",
 			callback = function()
-				-- try_lint without arguments runs the linters defined in `linters_by_ft`
-				-- for the current filetype
 				require("lint").try_lint()
 			end,
 		})
