@@ -14,4 +14,16 @@ return {
 		-- Your DBUI configuration
 		vim.g.db_ui_use_nerd_fonts = 1
 	end,
+	keys = {
+		{
+			"<leader>db",
+			"<CMD>DBUIToggle<CR>",
+			desc = "DB: Toggle UI",
+		},
+		{
+			"<leader>dbf",
+			"<CMD>DBUIFindBuffer<CR>",
+			desc = "DB: Find Buffer",
+		},
+	},
 }

@@ -1,3 +1,14 @@
+local function root_pattern(patterns)
+	return function(bufnr, on_dir)
+		local bufname = vim.api.nvim_buf_get_name(bufnr)
+		local pattern = require("lspconfig.util").root_pattern(patterns)
+		local match = pattern(bufname)
+		if match then
+			on_dir(match)
+		end
+	end
+end
+
 local lsp = vim.lsp
 
 local function virtual_text_document_handler(uri, res, client)
@@ -59,10 +70,7 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
-	root_dir = function(bufnr, on_dir)
-		local fname = vim.api.nvim_buf_get_name(bufnr)
-		on_dir(require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(fname))
-	end,
+	root_dir = root_pattern({ "deno.json", "deno.jsonc" }),
 	workspace_required = true,
 	settings = {
 		deno = {
