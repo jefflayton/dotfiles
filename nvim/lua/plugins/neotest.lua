@@ -9,7 +9,7 @@ return {
 		"vim-test/vim-test",
 		"nvim-neotest/neotest-vim-test",
 		-- other adapters
-		"hammerlink/neotest-deno",
+		"markemmons/neotest-deno",
 		"lawrence-laz/neotest-zig",
 		"nvim-neotest/neotest-jest",
 	},
@@ -38,9 +38,7 @@ return {
 	},
 	config = function()
 		require("neotest").setup({
-			log_level = vim.log.levels.TRACE,
 			adapters = {
-				-- require("neotest-vim-test")({ allowed_filetypes = { "javascript", "typescript" } }),
 				require("neotest-deno"),
 				require("neotest-zig")({
 					dap = {

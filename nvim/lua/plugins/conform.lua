@@ -4,7 +4,6 @@ return {
 		local conform = require("conform")
 
 		local formatters_by_ft = {
-			astro = { "prettier" },
 			css = { "prettier" },
 			go = { "gofmt" },
 			html = { "prettier" },

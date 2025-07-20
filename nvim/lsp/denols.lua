@@ -1,7 +1,9 @@
+local util = require("lspconfig-util")
+
 local function root_pattern(patterns)
 	return function(bufnr, on_dir)
 		local bufname = vim.api.nvim_buf_get_name(bufnr)
-		local pattern = require("lspconfig.util").root_pattern(patterns)
+		local pattern = util.root_pattern(patterns)
 		local match = pattern(bufname)
 		if match then
 			on_dir(match)

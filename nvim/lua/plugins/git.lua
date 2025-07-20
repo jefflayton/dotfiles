@@ -1,6 +1,13 @@
 return {
-	"lewis6991/gitsigns.nvim",
 	"tpope/vim-fugitive",
+	-- gitsigns.nvim
+	{
+		"lewis6991/gitsigns.nvim",
+		opts = {
+			current_line_blame = true,
+		},
+	},
+	-- diffview.nvim
 	{
 		"sindrets/diffview.nvim",
 		keys = {

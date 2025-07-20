@@ -1,3 +1,5 @@
+local util = require("lspconfig-util")
+
 return {
 	init_options = { hostInfo = "neovim" },
 	cmd = { "typescript-language-server", "--stdio" },
@@ -9,10 +11,10 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
- 	root_dir = function(bufnr, on_dir)
- 		local fname = vim.api.nvim_buf_get_name(bufnr)
- 		on_dir(require("lspconfig").util.root_pattern("tsconfig.json", "jsconfig.json")(fname))
- 	end,
+	root_dir = function(bufnr, on_dir)
+		local fname = vim.api.nvim_buf_get_name(bufnr)
+		on_dir(util.root_pattern("tsconfig.json", "jsconfig.json")(fname))
+	end,
 	workspace_required = true,
 	handlers = {
 		-- handle rename request for certain code actions like extracting functions / types
