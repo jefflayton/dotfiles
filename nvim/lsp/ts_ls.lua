@@ -1,4 +1,4 @@
-local util = require("lspconfig-util")
+local root_pattern = require("utils").root_pattern
 
 return {
 	init_options = { hostInfo = "neovim" },
@@ -13,14 +13,14 @@ return {
 	},
 	root_dir = function(bufnr, on_dir)
 		local fname = vim.api.nvim_buf_get_name(bufnr)
-		on_dir(util.root_pattern("tsconfig.json", "jsconfig.json")(fname))
+		on_dir(root_pattern("tsconfig.json", "jsconfig.json")(fname))
 	end,
 	workspace_required = true,
 	handlers = {
 		-- handle rename request for certain code actions like extracting functions / types
 		["_typescript.rename"] = function(_, result, ctx)
 			local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
-			vim.lsp.util.show_document({
+			vim.lsp.utils.show_document({
 				uri = result.textDocument.uri,
 				range = {
 					start = result.position,

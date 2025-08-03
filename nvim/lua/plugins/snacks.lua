@@ -11,12 +11,11 @@ return {
 	lazy = false,
 	opts = {
 		bigfile = { enabled = true },
-		bufdelete = { enabled = true },
 		debug = { enabled = true },
 		notify = { enabled = true },
 		quickfile = { enabled = true },
 		rename = { enabled = true },
-		statuscolumn = { enabled = true },
+		-- statuscolumn = { enabled = true },
 		toggle = { enabled = true },
 		words = { enabled = true },
 		zen = {

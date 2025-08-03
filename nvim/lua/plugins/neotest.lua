@@ -13,6 +13,26 @@ return {
 		"lawrence-laz/neotest-zig",
 		"nvim-neotest/neotest-jest",
 	},
+	config = function()
+		require("neotest").setup({
+			adapters = {
+				require("neotest-deno"),
+				require("neotest-zig")({
+					dap = {
+						adapter = "lldb",
+					},
+				}),
+				require("neotest-jest")({
+					jestCommand = "npm test --",
+					jestConfigFile = "custom.jest.config.ts",
+					env = { CI = true },
+					cwd = function(path)
+						return vim.fn.getcwd()
+					end,
+				}),
+			},
+		})
+	end,
 	keys = {
 		{
 			"<leader>tn",
@@ -36,20 +56,4 @@ return {
 			desc = "Test: Stop Nearest",
 		},
 	},
-	config = function()
-		require("neotest").setup({
-			adapters = {
-				require("neotest-deno"),
-				require("neotest-zig")({
-					dap = {
-						adapter = "lldb",
-					},
-				}),
-				require("neotest-jest")({
-					jestCommand = require("neotest-jest.jest-util").getJestCommand(vim.fn.expand("%:p:h"))
-						.. " --watch",
-				}),
-			},
-		})
-	end,
 }

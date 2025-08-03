@@ -35,6 +35,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				scope = "current",
 			})
 		end, "Diagnostics")
+		nmap("grh", function()
+			require("mini.pick").builtin.help()
+		end, "Help")
 	end,
 })
 
@@ -45,10 +48,8 @@ vim.lsp.config("*", {
 vim.lsp.enable({
 	"cssls",
 	"denols",
-	"gopls",
 	"harperls",
 	"html",
-	"jdtls",
 	"luals",
 	"ltex",
 	"postgres_lsp",

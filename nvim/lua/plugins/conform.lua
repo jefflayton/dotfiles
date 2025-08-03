@@ -1,50 +1,48 @@
+local utils = require("utils")
+
 return {
 	"stevearc/conform.nvim",
 	config = function()
 		local conform = require("conform")
 
-		local formatters_by_ft = {
-			css = { "prettier" },
-			go = { "gofmt" },
-			html = { "prettier" },
-			java = { "google-java-format" },
-			javascript = { "prettier" },
-			javascriptreact = { "prettier" },
-			json = { "prettier" },
-			jsonc = { "prettier" },
-			latex = { "bibtex-tidy" },
-			lua = { "stylua" },
-			sql = { "sql_formatter" },
-			typescript = { "prettier" },
-			typescriptreact = { "prettier" },
-			yaml = { "prettier" },
-			zig = { "zigfmt" },
-		}
-
-		local jsFormatter = function()
-			local cwd = vim.fn.getcwd()
-			local is_deno = vim.fn.filereadable(cwd .. "/deno.json") == 1
-				or vim.fn.filereadable(cwd .. "/deno.jsonc") == 1
-				or vim.fn.filereadable(cwd .. "/deno.lock") == 1
-
-			if is_deno then
-				return { "deno_fmt" }
-			else
-				return { "prettier" }
-			end
-		end
-
-		formatters_by_ft.javascript = jsFormatter
-		formatters_by_ft.typescript = jsFormatter
-		formatters_by_ft.typescriptreact = jsFormatter
-		formatters_by_ft.json = jsFormatter
-		formatters_by_ft.jsonc = jsFormatter
-
 		conform.setup({
-			formatters_by_ft = formatters_by_ft,
+			formatters_by_ft = {
+				css = { "prettier" },
+				html = { "prettier" },
+				javascript = utils.deno_or_node({ "deno_fmt" }, { "prettier" }),
+				javascriptreact = utils.deno_or_node({ "deno_fmt" }, { "prettier" }),
+				json = utils.deno_or_node({ "deno_fmt" }, { "prettier" }),
+				jsonc = utils.deno_or_node({ "deno_fmt" }, { "prettier" }),
+				lua = { "stylua" },
+				sql = { "sql_formatter" },
+				typescript = utils.deno_or_node({ "deno_fmt" }, { "prettier" }),
+				typescriptreact = utils.deno_or_node({ "deno_fmt" }, { "prettier" }),
+				yaml = { "prettier" },
+				zig = { "zigfmt" },
+			},
 			formatters = {
+				prettier = {
+					args = {
+						"--stdin-filepath",
+						"$FILENAME",
+						"--tab-width",
+						"4",
+					},
+				},
 				deno_fmt = {
 					cwd = require("conform.util").root_file({ "deno.json", "deno.jsonc" }),
+					args = {
+						"fmt",
+						"-",
+						"--indent-width",
+						"4",
+					},
+				},
+				sql_formatter = {
+					args = {
+						"--indent",
+						"    ",
+					},
 				},
 			},
 		})

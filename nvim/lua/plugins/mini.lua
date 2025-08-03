@@ -1,3 +1,14 @@
+local pickOpts = {
+	tool = "rg",
+	globs = {
+		"!**/.git/**",
+		"!**/node_modules/**",
+		"!**/!ios/**",
+		"!**/android/**",
+		"!**/dist/**",
+	},
+}
+
 local map_split = function(buf_id, lhs, direction)
 	local rhs = function()
 		-- Make new window and set it as target
@@ -36,7 +47,6 @@ return {
 				line_right = "<leader>l",
 			},
 		})
-		require("mini.pairs").setup()
 		require("mini.surround").setup()
 
 		local extra = require("mini.extra")
@@ -68,73 +78,72 @@ return {
 		})
 		vim.ui.select = pick.ui_select
 
-		local pickOpts = {
-			tool = "rg",
-			globs = {
-				"!**/.git/**",
-				"!**/node_modules/**",
-				"!**/!ios/**",
-				"!**/android/**",
-				"!**/dist/**",
-			},
-		}
+		pick.registry.buffers = function(local_opts, opts)
+			local_opts = local_opts or {}
 
-		require("which-key").add({
-			-- mini.files
-			{
-				"<leader>e",
-				function()
-					require("mini.files").open()
-				end,
-				desc = "Open mini.files",
-			},
-			-- mini.pick
-			{
-				"<leader>ff",
-				function()
-					pick.builtin.files(pickOpts)
-				end,
-				desc = "Mini Pick: Files",
-			},
-			{
-				"<leader>fg",
-				function()
-					pick.builtin.grep_live(pickOpts)
-				end,
-				desc = "Mini Pick: Live Grep",
-			},
-			{
-				"<leader>fb",
-				function()
-					pick.builtin.buffers(pickOpts, {
-						mappings = {
-							wipeout = {
-								char = "<C-d>",
-								func = function()
-									local items = pick.get_picker_items()
-									local target = pick.get_picker_matches()
-									--
-									-- Close the buffer
-									vim.api.nvim_buf_delete(target.current.bufnr, {})
+			-- Delete the current buffer
+			local wipeout_cur = function()
+				vim.api.nvim_buf_delete(pick.get_picker_matches().current.bufnr, {})
+				pick.builtin.buffers(local_opts, opts)
+			end
 
-									table.remove(items, target.current_ind)
+			-- Map <C-d> to delete the buffer
+			local buffer_mappings = { wipeout = { char = "<C-d>", func = wipeout_cur } }
 
-									-- Update the list of buffers
-									pick.set_picker_items(items)
-								end,
-							},
-						},
-					})
-				end,
-				desc = "Mini Pick: Buffers",
-			},
-			{
-				"<leader>fs",
-				function()
-					extra.pickers.buf_lines()
-				end,
-				desc = "Mini Extra: Buffer Search",
-			},
-		})
+			-- Show buffers with short names
+			local show = function(buf_id, items, query)
+				vim.tbl_map(function(i)
+					i.text = vim.fn.fnamemodify(i.text, ":t")
+				end, items)
+				pick.default_show(buf_id, items, query, { show_icons = true })
+			end
+
+			-- Merge options
+			opts = vim.tbl_deep_extend("force", {
+				source = { show = show },
+				mappings = buffer_mappings,
+			}, opts or {})
+
+			return pick.builtin.buffers(local_opts, opts)
+		end
 	end,
+	keys = {
+		-- mini.files
+		{
+			"<leader>e",
+			function()
+				require("mini.files").open()
+			end,
+			desc = "Open mini.files",
+		},
+		-- mini.pick
+		{
+			"<leader>ff",
+			function()
+				require("mini.pick").builtin.files(pickOpts)
+			end,
+			desc = "Mini Pick: Files",
+		},
+		{
+			"<leader>fg",
+			function()
+				require("mini.pick").builtin.grep_live(pickOpts)
+			end,
+			desc = "Mini Pick: Live Grep",
+		},
+		{
+			"<leader>fb",
+			function()
+				require("mini.pick").registry.buffers(pickOpts)
+			end,
+			desc = "Mini Pick: Buffers",
+		},
+		{
+			"<leader>fs",
+			function()
+				require("mini.extras").pickers.buf_lines()
+			end,
+			desc = "Mini Extra: Buffer Search",
+		},
+	},
 }
