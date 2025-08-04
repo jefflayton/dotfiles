@@ -1,5 +1,21 @@
 local utils = require("utils")
 
+local extensions = {
+	css = "css",
+	html = "html",
+	javascript = "js",
+	javascriptreact = "jsx",
+	json = "json",
+	jsonc = "jsonc",
+	less = "less",
+	markdown = "md",
+	sass = "sass",
+	scss = "scss",
+	typescript = "ts",
+	typescriptreact = "tsx",
+	yaml = "yml",
+}
+
 return {
 	"stevearc/conform.nvim",
 	config = function()
@@ -31,12 +47,17 @@ return {
 				},
 				deno_fmt = {
 					cwd = require("conform.util").root_file({ "deno.json", "deno.jsonc" }),
-					args = {
-						"fmt",
-						"-",
-						"--indent-width",
-						"4",
-					},
+					args = function(self, ctx)
+						local extension = extensions[vim.bo[ctx.buf].filetype]
+						return {
+							"fmt",
+							"-",
+							"--indent-width",
+							"4",
+							"--ext",
+							extension,
+						}
+					end,
 				},
 				sql_formatter = {
 					args = {
