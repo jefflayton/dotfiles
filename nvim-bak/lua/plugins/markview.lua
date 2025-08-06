@@ -10,5 +10,8 @@ return {
 		latex = {
 			enable = true,
 		},
+		typst = {
+			enable = false,
+		},
 	},
 }
