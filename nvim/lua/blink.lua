@@ -63,6 +63,7 @@ now(function()
 				"lazydev",
 				"path",
 				"snippets",
+				"copilot",
 				"env",
 			},
 			per_filetype = {
@@ -90,6 +91,21 @@ now(function()
 						item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
 						show_braces = false,
 						show_documentation_window = true,
+					},
+				},
+				copilot = {
+					name = "copilot",
+					module = "blink-copilot",
+					score_offset = 100,
+					async = true,
+					opts = {
+						-- Local options override global ones
+						max_completions = 3, -- Override global max_completions
+
+						-- Final settings:
+						-- * max_completions = 3
+						-- * max_attempts = 2
+						-- * all other options are default
 					},
 				},
 				npm = {

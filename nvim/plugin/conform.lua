@@ -46,12 +46,12 @@ later(function()
 					"4",
 				},
 			},
-			sql_formatter = {
-				args = {
-					"--indent",
-					"    ",
-				},
-			},
+			-- sql_formatter = {
+			-- 	args = {
+			-- 		"--config",
+			-- 		'{"tabWidth": 4}',
+			-- 	},
+			-- },
 		},
 	})
 

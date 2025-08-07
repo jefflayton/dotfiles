@@ -13,7 +13,7 @@ return {
 	},
 	root_dir = function(bufnr, on_dir)
 		local fname = vim.api.nvim_buf_get_name(bufnr)
-		on_dir(root_pattern("tsconfig.json", "jsconfig.json")(fname))
+		on_dir(root_pattern("tsconfig.json", "jsconfig.json", "package.json")(fname))
 	end,
 	workspace_required = true,
 	handlers = {
