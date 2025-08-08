@@ -31,6 +31,7 @@ return {
 	version = "*",
 	config = function()
 		require("mini.ai").setup()
+		require("mini.comment").setup()
 		require("mini.indentscope").setup({ options = { border = "top" } })
 		require("mini.move").setup({
 			mappings = {
@@ -47,6 +48,8 @@ return {
 				line_right = "<leader>l",
 			},
 		})
+		require("mini.pairs").setup()
+        require("mini.splitjoin").setup()
 		require("mini.surround").setup()
 
 		local extra = require("mini.extra")

@@ -1,5 +1,4 @@
-local mini_extra = require("mini.extra")
-local capabilities = require("blink.cmp").get_lsp_capabilities()
+local extra = require("mini.extra")
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -8,42 +7,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
 		nmap("grd", function()
-			mini_extra.pickers.lsp({ scope = "definition" })
+			extra.pickers.lsp({ scope = "definition" })
 		end, "Goto Definition")
 		nmap("grr", function()
-			mini_extra.pickers.lsp({ scope = "references" })
+			extra.pickers.lsp({ scope = "references" })
 		end, "Goto References")
 		nmap("gri", function()
-			mini_extra.pickers.lsp({ scope = "implementation" })
+			extra.pickers.lsp({ scope = "implementation" })
 		end, "Goto Implementation")
 		nmap("grt", function()
-			mini_extra.pickers.lsp({ scope = "type_definition" })
+			extra.pickers.lsp({ scope = "type_definition" })
 		end, "Type Definition")
 		nmap("grs", function()
-			mini_extra.pickers.lsp({ scope = "document_symbol" })
+			extra.pickers.lsp({ scope = "document_symbol" })
 		end, "Document Symbols")
 		nmap("grw", function()
-			mini_extra.pickers.lsp({ scope = "workspace_symbol" })
+			extra.pickers.lsp({ scope = "workspace_symbol" })
 		end, "Workspace Symbols")
 		nmap("grf", function()
-			mini_extra.pickers.diagnostic({
+			extra.pickers.diagnostic({
 				scope = "all",
 			})
 		end, "All Diagnostics")
 		nmap("grD", function()
-			mini_extra.pickers.diagnostic({
+			extra.pickers.diagnostic({
 				scope = "current",
 			})
 		end, "Diagnostics")
-		nmap("grh", function()
-			require("mini.pick").builtin.help()
-		end, "Help")
 	end,
 })
 
-vim.lsp.config("*", {
-	capabilities = capabilities,
-})
+vim.lsp.config("*", { capabilities = require("blink.cmp").get_lsp_capabilities() })
 
 vim.lsp.enable({
 	"cssls",
@@ -53,6 +47,6 @@ vim.lsp.enable({
 	"luals",
 	"ltex",
 	"postgres_lsp",
-	"ts_ls",
+	"tinymist",
 	"zls",
 })

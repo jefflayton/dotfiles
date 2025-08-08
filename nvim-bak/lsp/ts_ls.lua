@@ -13,7 +13,7 @@ return {
 	},
 	root_dir = function(bufnr, on_dir)
 		local fname = vim.api.nvim_buf_get_name(bufnr)
-		on_dir(root_pattern("tsconfig.json", "jsconfig.json", "package.json")(fname))
+		on_dir(root_pattern("tsconfig.json", "jsconfig.json")(fname))
 	end,
 	workspace_required = true,
 	handlers = {
@@ -29,10 +29,6 @@ return {
 			}, client.offset_encoding)
 			vim.lsp.buf.rename()
 			return vim.NIL
-		end,
-		["textDocument/publishDiagnostics"] = function(err, result, ctx)
-			require("ts-error-translator").translate_diagnostics(err, result, ctx)
-			vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
 		end,
 	},
 	on_attach = function(client, bufnr)
