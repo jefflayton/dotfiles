@@ -34,9 +34,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				scope = "current",
 			})
 		end, "Diagnostics")
-		nmap("grh", function()
-			require("mini.pick").builtin.help()
-		end, "Help")
 	end,
 })
 
@@ -51,6 +48,5 @@ vim.lsp.enable({
 	"ltex",
 	"postgres_lsp",
 	"tinymist",
-	"ts_ls",
 	"zls",
 })

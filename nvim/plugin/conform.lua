@@ -14,6 +14,7 @@ later(function()
 			lsp_format = "fallback",
 		},
 		formatters_by_ft = {
+			c = { "clang-format" },
 			css = jsFormatter,
 			html = jsFormatter,
 			javascript = jsFormatter,
@@ -46,12 +47,9 @@ later(function()
 					"4",
 				},
 			},
-			-- sql_formatter = {
-			-- 	args = {
-			-- 		"--config",
-			-- 		'{"tabWidth": 4}',
-			-- 	},
-			-- },
+			["clang-format"] = {
+				args = { "-assume-filename", "$FILENAME", "--style", "{BasedOnStyle: llvm, IndentWidth: 4}" },
+			},
 		},
 	})
 

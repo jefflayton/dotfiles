@@ -10,17 +10,15 @@ later(function()
 	local dapui = require("dapui")
 	require("dapui").setup()
 
-	local debuggers = vim.fn.expand("$HOME/tools/debuggers")
-
 	-- JavaScript/TypeScript
-	local js_debug_path = vim.fn.expand(debuggers .. "/js-debug/src")
+	local js_debug = vim.fn.exepath("js-debug-adapter")
 	dap.adapters["pwa-node"] = {
 		type = "server",
 		host = "localhost",
 		port = "${port}",
 		executable = {
 			command = "node",
-			args = { js_debug_path .. "/dapDebugServer.js", "${port}" },
+			args = { js_debug, "${port}" },
 		},
 	}
 
@@ -46,16 +44,97 @@ later(function()
 			cwd = "${workspaceFolder}",
 			attachSimplePort = 9229,
 		},
+		{
+			type = "pwa-node",
+			request = "attach",
+			name = "Attach: Supabase Edge Runtime",
+			address = "127.0.0.1",
+			port = 8083,
+			cwd = vim.fn.getcwd(),
+			sourceMaps = true,
+			-- only look for .map files in your project
+			resolveSourceMapLocations = {
+				"${workspaceFolder}/**",
+				"!**/node_modules/**",
+				"!/var/tmp/sb-compile-edge-runtime/**",
+			},
+			-- smartStep = true,
+			skipFiles = { "<node_internals>/**", "**/node_modules/**" },
+			sourceMapPathOverrides = {
+				["file:///home/deno/functions/*"] = "${workspaceFolder}/supabase/functions/*",
+			},
+		},
 	}
+
 	dap.configurations.typescript = dap.configurations.javascript
 
 	-- C/C++/Zig
-	local codelldb_path = vim.fn.expand(debuggers .. "/codelldb/extension/adapter/codelldb")
+	local codelldb = vim.fn.exepath("codelldb")
 	dap.adapters.codelldb = {
 		type = "executable",
-		command = codelldb_path,
+		command = codelldb,
 	}
 
+	dap.configurations.c = {
+		{
+			name = "Launch file",
+			type = "codelldb",
+			request = "launch",
+			program = function()
+				return coroutine.create(function(coro)
+					-- Get executable files asynchronously
+
+					local result = vim.system({ "fd", "--hidden", "--no-ignore", "--type", "x" }, { text = true })
+						:wait()
+
+					if result.code ~= 0 then
+						coroutine.resume(coro, nil)
+						return
+					end
+
+					local items = {}
+					for line in result.stdout:gmatch("[^\r\n]+") do
+						if line ~= "" then
+							table.insert(items, line)
+						end
+					end
+
+					local pick = require("mini.pick")
+					pick.start({
+						source = {
+							items = items,
+							name = "Executables",
+						},
+						mappings = {
+							select = {
+								char = "<CR>",
+								func = function()
+									local selected = pick.get_picker_matches().current
+									if selected then
+										pick.stop()
+										coroutine.resume(coro, selected)
+									end
+								end,
+							},
+							esc = {
+								char = "<ESC>",
+								func = function()
+									pick.stop()
+									coroutine.resume(coro, nil)
+								end,
+							},
+						},
+						options = {
+							prompt = "Path to executable: ",
+						},
+					})
+				end)
+			end,
+			cwd = "${workspaceFolder}",
+			stopOnEntry = false,
+		},
+	}
+	dap.configurations.cpp = dap.configurations.c
 	dap.configurations.zig = {
 		{
 			name = "Debug Zig",
@@ -83,6 +162,43 @@ later(function()
 	end
 	dap.listeners.before.event_exited.dapui_config = function()
 		dapui.close()
+	end
+
+	local api = vim.api
+	local keymap_restore = {}
+	dap.listeners.after["event_initialized"]["me"] = function()
+		for _, buf in pairs(api.nvim_list_bufs()) do
+			local keymaps = api.nvim_buf_get_keymap(buf, "n")
+			for _, keymap in pairs(keymaps) do
+				if keymap.lhs == "K" then
+					table.insert(keymap_restore, keymap)
+					api.nvim_buf_del_keymap(buf, "n", "K")
+				end
+			end
+		end
+		api.nvim_set_keymap("n", "K", '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
+	end
+
+	dap.listeners.after["event_terminated"]["me"] = function()
+		for _, keymap in pairs(keymap_restore) do
+			if keymap.rhs then
+				api.nvim_buf_set_keymap(
+					keymap.buffer,
+					keymap.mode,
+					keymap.lhs,
+					keymap.rhs,
+					{ silent = keymap.silent == 1 }
+				)
+			elseif keymap.callback then
+				vim.keymap.set(
+					keymap.mode,
+					keymap.lhs,
+					keymap.callback,
+					{ buffer = keymap.buffer, silent = keymap.silent == 1 }
+				)
+			end
+		end
+		keymap_restore = {}
 	end
 
 	local nmap = function(keymap, action, desc)

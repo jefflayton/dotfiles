@@ -90,29 +90,31 @@ now(function()
 	local nmap = function(keymap, action, desc)
 		vim.keymap.set("n", keymap, action, { desc = "MiniPick: " .. desc })
 	end
-	nmap("<leader>ff", function()
+	nmap("<leader>f", function()
 		pick.builtin.files(pickOpts)
 	end, "Files")
-	nmap("<leader>fg", function()
+	nmap("<leader>g", function()
 		pick.builtin.grep_live(pickOpts)
 	end, "Live Grep")
-	nmap("<leader>fb", function()
+	nmap("<leader>b", function()
 		pick.registry.buffers(pickOpts)
 	end, "Buffers")
+	nmap("<leader>h", function()
+		require("mini.pick").builtin.help(pickOpts)
+	end, "Help")
 end)
 
 later(function()
 	local function get_words()
-		local count = 0
+		local count = nil
 		if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "" then
 			count = vim.fn.wordcount().visual_words
-			-- return tostring(vim.fn.wordcount().visual_words .. " word" .. (vim.fn.wordcount() == 1 and "" or "s"))
 		elseif vim.bo.filetype == "text" or vim.bo.filetype == "markdown" then
 			count = vim.fn.wordcount().words
-			-- return " | " .. vim.fn.wordcount().words .. " word" .. (vim.fn.wordcount() == 1 and "" or "s")
 		else
 			count = nil
 		end
+
 		if count == nil then
 			return
 		end
@@ -184,7 +186,6 @@ later(function()
 	require("mini.indentscope").setup({ options = { border = "top" } })
 	require("mini.git").setup()
 	require("mini.jump").setup()
-	require("mini.move").setup()
 	require("mini.notify").setup()
 	require("mini.pairs").setup()
 	require("mini.splitjoin").setup()
@@ -192,6 +193,9 @@ later(function()
 
 	local clue = require("mini.clue")
 	clue.setup({
+		window = {
+			delay = 500,
+		},
 		triggers = {
 			-- Leader triggers
 			{ mode = "n", keys = "<Leader>" },

@@ -81,6 +81,10 @@ return {
 		["textDocument/definition"] = denols_handler,
 		["textDocument/typeDefinition"] = denols_handler,
 		["textDocument/references"] = denols_handler,
+		["textDocument/publishDiagnostics"] = function(err, result, ctx)
+			require("ts-error-translator").translate_diagnostics(err, result, ctx)
+			vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
+		end,
 	},
 	on_attach = function(client, bufnr)
 		vim.api.nvim_buf_create_user_command(bufnr, "LspDenolsCache", function()

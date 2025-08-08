@@ -10,6 +10,9 @@ vim.o.scrolloff = 8
 
 vim.o.swapfile = false
 
+-- UI
+vim.o.winborder = "rounded"
+
 -- Sync clipboard between MacOS and Neovim
 vim.o.clipboard = "unnamedplus"
 

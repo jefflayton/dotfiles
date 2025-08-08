@@ -6,12 +6,12 @@ now(function()
 	require("snacks").setup({
 		bigfile = { enabled = true },
 	})
+
+	add({ source = "mason-org/mason.nvim" })
+	require("mason").setup()
 end)
 
 later(function()
-	add({ source = "mason-org/mason.nvim" })
-	require("mason").setup()
-
 	add({ source = "folke/lazydev.nvim" })
 	require("lazydev").setup({
 		library = {

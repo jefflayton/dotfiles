@@ -17,14 +17,11 @@ end
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup()
 
-local now, later = require("mini.deps").now, require("mini.deps").later
+local now = require("mini.deps").now
 now(function()
 	require("mappings")
 	require("settings")
-	require("utils")
-end)
-
-later(function()
 	require("blink")
+	require("utils")
 	require("lsp")
 end)
