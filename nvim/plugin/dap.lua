@@ -32,6 +32,27 @@ later(function()
 		},
 		{
 			type = "pwa-node",
+			request = "attach",
+			name = "Attach: Supabase Edge Runtime",
+			address = "127.0.0.1",
+			port = 8083,
+			cwd = vim.fn.getcwd(),
+			sourceMaps = true,
+			-- only look for .map files in your project
+			resolveSourceMapLocations = {
+				"${workspaceFolder}/**",
+				"!**/node_modules/**",
+				"!/var/tmp/sb-compile-edge-runtime/**",
+			},
+			-- optional quality-of-life
+			smartStep = true,
+			skipFiles = { "<node_internals>/**", "**/node_modules/**" },
+			sourceMapPathOverrides = {
+				["file:///home/deno/functions/*"] = "${workspaceFolder}/supabase/functions/*",
+			},
+		},
+		{
+			type = "pwa-node",
 			request = "launch",
 			name = "Deno: Launch file",
 			runtimeExecutable = "deno",
