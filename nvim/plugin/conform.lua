@@ -22,7 +22,7 @@ later(function()
 			json = jsFormatter,
 			jsonc = jsFormatter,
 			lua = { "stylua" },
-			sql = { "sql_formatter" },
+            sql = { "pg_format" },
 			svelte = { "prettierd" },
 			typescript = jsFormatter,
 			typescriptreact = jsFormatter,
@@ -31,23 +31,6 @@ later(function()
 			zig = { "zigfmt" },
 		},
 		formatters = {
-			prettier = {
-				args = {
-					"--stdin-filepath",
-					"$FILENAME",
-					"--tab-width",
-					"4",
-				},
-			},
-			deno_fmt = {
-				cwd = require("conform.util").root_file({ "deno.json", "deno.jsonc" }),
-				args = {
-					"fmt",
-					"-",
-					"--indent-width",
-					"4",
-				},
-			},
 			["clang-format"] = {
 				args = { "-assume-filename", "$FILENAME", "--style", "{BasedOnStyle: llvm, IndentWidth: 4}" },
 			},
