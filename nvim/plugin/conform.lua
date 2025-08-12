@@ -23,6 +23,7 @@ later(function()
 			jsonc = jsFormatter,
 			lua = { "stylua" },
 			sql = { "sql_formatter" },
+			svelte = { "prettierd" },
 			typescript = jsFormatter,
 			typescriptreact = jsFormatter,
 			typst = { "typstyle" },

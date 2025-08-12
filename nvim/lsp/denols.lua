@@ -1,6 +1,20 @@
-local root_pattern = require("utils").root_pattern
+---@brief
+---
+--- https://github.com/denoland/deno
+---
+--- Deno's built-in language server
+---
+--- To appropriately highlight codefences returned from denols, you will need to augment vim.g.markdown_fenced languages
+---  in your init.lua. Example:
+---
+--- ```lua
+--- vim.g.markdown_fenced_languages = {
+---   "ts=typescript"
+--- }
+--- ```
 
 local lsp = vim.lsp
+
 local function virtual_text_document_handler(uri, res, client)
 	if not res then
 		return nil
@@ -60,11 +74,14 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
-	root_dir = function(bufnr, on_dir)
-		local fname = vim.api.nvim_buf_get_name(bufnr)
-		on_dir(root_pattern("deno.json", "deno.jsonc")(fname))
-	end,
 	workspace_required = true,
+	root_dir = function(bufnr, on_dir)
+		local root_files = { "deno.json", "deno.jsonc" }
+		local fname = vim.api.nvim_buf_get_name(bufnr)
+		if vim.uv.fs_stat(fname) ~= nil then
+			on_dir(vim.fs.dirname(vim.fs.find(root_files, { path = fname, upward = true })[1]))
+		end
+	end,
 	settings = {
 		deno = {
 			enable = true,
@@ -81,10 +98,6 @@ return {
 		["textDocument/definition"] = denols_handler,
 		["textDocument/typeDefinition"] = denols_handler,
 		["textDocument/references"] = denols_handler,
-		["textDocument/publishDiagnostics"] = function(err, result, ctx)
-			require("ts-error-translator").translate_diagnostics(err, result, ctx)
-			vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
-		end,
 	},
 	on_attach = function(client, bufnr)
 		vim.api.nvim_buf_create_user_command(bufnr, "LspDenolsCache", function()

@@ -9,7 +9,11 @@ end)
 
 now(function()
 	local files = require("mini.files")
-	files.setup()
+	files.setup({
+		mappings = {
+			synchronize = "<leader>w",
+		},
+	})
 	vim.keymap.set("n", "<leader>e", function()
 		files.open()
 	end, { desc = "MiniFiles: Open" })
@@ -186,6 +190,8 @@ later(function()
 	require("mini.indentscope").setup({ options = { border = "top" } })
 	require("mini.git").setup()
 	require("mini.jump").setup()
+	-- Adjust HighLight for mini.jump to be more readable
+	vim.cmd("highlight MiniJump guifg=#1e1e2e guibg=#f5c2e7")
 	require("mini.notify").setup()
 	require("mini.pairs").setup()
 	require("mini.splitjoin").setup()

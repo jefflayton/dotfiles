@@ -1,10 +1,6 @@
 local add, now = require("mini.deps").add, require("mini.deps").now
 
 now(function()
-	add({ source = "L3MON4D3/LuaSnip", depends = { "rafamadriz/friendly-snippets" } })
-	require("luasnip.loaders.from_vscode").lazy_load()
-	require("luasnip").setup({ enable_autosnippets = true })
-
 	add({ source = "zbirenbaum/copilot.lua" })
 	require("copilot").setup({
 		suggestion = { enabled = false },
@@ -20,16 +16,43 @@ now(function()
 		checkout = "1.*",
 		depends = {
 			"kristijanhusak/vim-dadbod-completion",
-			"bydlw98/blink-cmp-env",
 			"alexandre-abrioux/blink-cmp-npm.nvim",
-			"archie-judd/blink-cmp-words",
 			"fang2hou/blink-copilot",
+			"L3MON4D3/LuaSnip",
 		},
 	})
+	add({ source = "L3MON4D3/LuaSnip" })
+	local luasnip = require("luasnip")
+	luasnip.setup()
+	require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
+	vim.keymap.set({ "i", "s" }, "<C-e>", function()
+		luasnip.expand()
+	end, { desc = "LuaSnip: Expand" })
+	vim.keymap.set("i", "<C-J>", function()
+		luasnip.jump(1)
+	end, { desc = "LuaSnip: Jump Down" })
+	vim.keymap.set("i", "<C-K>", function()
+		luasnip.jump(-1)
+	end, { desc = "LuaSnip: Jump Up" })
+
 	require("blink.cmp").setup({
-		cmdline = { completion = { menu = {
-			auto_show = true,
-		} }, keymap = { preset = "inherit" } },
+		cmdline = {
+			completion = {
+				menu = { auto_show = true },
+			},
+			keymap = { preset = "inherit" },
+		},
+		completion = {
+			menu = {
+				draw = {
+					treesitter = { "lsp" },
+					columns = {
+						{ "kind_icon", "label", "label_description", gap = 1 },
+						{ "source_id" },
+					},
+				},
+			},
+		},
 		keymap = {
 			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 			["<C-e>"] = { "hide", "fallback" },
@@ -61,10 +84,9 @@ now(function()
 				"buffer",
 				"lsp",
 				"lazydev",
-				"path",
 				"snippets",
+				"path",
 				"copilot",
-				"env",
 			},
 			per_filetype = {
 				sql = { inherit_defaults = true, "dadbod" },
@@ -81,17 +103,7 @@ now(function()
 				snippets = {
 					name = "Snippets",
 					module = "blink.cmp.sources.snippets",
-					min_keyword_length = 3,
-				},
-				env = {
-					name = "Env",
-					module = "blink-cmp-env",
-					--- @type blink-cmp-env.Options
-					opts = {
-						item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
-						show_braces = false,
-						show_documentation_window = true,
-					},
+					min_keyword_length = 2,
 				},
 				copilot = {
 					name = "copilot",
@@ -99,13 +111,7 @@ now(function()
 					score_offset = 100,
 					async = true,
 					opts = {
-						-- Local options override global ones
-						max_completions = 3, -- Override global max_completions
-
-						-- Final settings:
-						-- * max_completions = 3
-						-- * max_attempts = 2
-						-- * all other options are default
+						max_completions = 3,
 					},
 				},
 				npm = {
@@ -125,20 +131,6 @@ now(function()
 				},
 			},
 		},
-		fuzzy = {
-			implementation = "lua",
-			sorts = {
-				function(a, b)
-					local sort = require("blink.cmp.fuzzy.sort")
-					if a.source_id == "spell" and b.source_id == "spell" then
-						return sort.label(a, b)
-					end
-				end,
-				-- This is the normal default order, which we fall back to
-				"score",
-				"kind",
-				"label",
-			},
-		},
+		fuzzy = { implementation = "lua" },
 	})
 end)
