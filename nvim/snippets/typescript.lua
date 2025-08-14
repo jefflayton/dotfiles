@@ -7,7 +7,6 @@ local d = ls.dynamic_node
 local sn = ls.snippet_node
 local fmta = require("luasnip.extras.fmt").fmta
 
--- TypeScript snippets
 return {
 	s({ trig = "tc" }, {
 		t({ "try {", "" }),

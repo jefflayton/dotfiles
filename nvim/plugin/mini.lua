@@ -63,17 +63,8 @@ now(function()
 		-- Map <C-d> to delete the buffer
 		local buffer_mappings = { wipeout = { char = "<C-d>", func = wipeout_cur } }
 
-		-- Show buffers with short names
-		local show = function(buf_id, items, query)
-			vim.tbl_map(function(i)
-				i.text = vim.fn.fnamemodify(i.text, ":t")
-			end, items)
-			pick.default_show(buf_id, items, query, { show_icons = true })
-		end
-
 		-- Merge options
 		opts = vim.tbl_deep_extend("force", {
-			source = { show = show },
 			mappings = buffer_mappings,
 		}, opts or {})
 
@@ -88,6 +79,7 @@ now(function()
 			"!**/!ios/**",
 			"!**/android/**",
 			"!**/dist/**",
+			"!**/build/**",
 		},
 	}
 

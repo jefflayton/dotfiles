@@ -53,6 +53,8 @@ vim.lsp.enable({
 	"luals",
 	"ltex",
 	"postgres_lsp",
+	"svelte",
+	"tailwindcss",
 	"tinymist",
 	"zls",
 })

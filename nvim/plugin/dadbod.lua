@@ -11,13 +11,7 @@ later(function()
 			end,
 		},
 	})
-
-	vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-		pattern = ".env*",
-		callback = function()
-			vim.cmd("Dotenv")
-		end,
-	})
+	vim.keymap.set("n", "<leader>le", "<cmd>Dotenv<cr>", { desc = "Dotenv: Load" })
 
 	vim.keymap.set("n", "<leader>db", "<cmd>DBUIToggle<cr>", { desc = "DB: Toggle UI" })
 	vim.keymap.set("n", "<leader>dbf", "<cmd>DBUIFindBuffer<cr>", { desc = "DB: Find Buffer" })
