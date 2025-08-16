@@ -27,13 +27,6 @@ later(function()
 	add({ source = "chomosuke/typst-preview.nvim" })
 	require("typst-preview").setup()
 
-	add({ source = "lewis6991/gitsigns.nvim" })
-	require("gitsigns").setup({ current_line_blame = true })
-
-	add({ source = "sindrets/diffview.nvim" })
-	vim.keymap.set("n", "<leader>dvo", "<cmd>DiffviewOpen<cr>", { desc = "Git: Open Diffview" })
-	vim.keymap.set("n", "<leader>dvc", "<cmd>DiffviewClose<cr>", { desc = "Git: Close Diffview" })
-
 	add({ source = "OXY2DEV/markview.nvim" })
 	require("markview").setup({
 		experimental = { check_rtp = false },
@@ -67,4 +60,16 @@ later(function()
 
 	add({ source = "windwp/nvim-ts-autotag" })
 	require("nvim-ts-autotag").setup()
+
+	add({
+		source = "Bekaboo/dropbar.nvim",
+		depends = { "nvim-telescope/telescope-fzf-native.nvim" },
+	})
+	local dropbar_api = require("dropbar.api")
+	vim.keymap.set("n", "<leader>;", dropbar_api.pick, { desc = "Dropbar: Pick symbols in winbar" })
+	vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Dropbar: Go to start of current context" })
+	vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Dropbar: Select next context" })
+
+	add({ source = "windwp/nvim-autopairs" })
+	require("nvim-autopairs").setup()
 end)

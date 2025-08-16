@@ -8,10 +8,7 @@ later(function()
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			-- vim-test
-			"vim-test/vim-test",
-			"nvim-neotest/neotest-vim-test",
-			-- other adapters
+			-- Adapters
 			"markemmons/neotest-deno",
 			"lawrence-laz/neotest-zig",
 			"nvim-neotest/neotest-jest",
@@ -23,7 +20,7 @@ later(function()
 			require("neotest-deno"),
 			require("neotest-zig")({
 				dap = {
-					adapter = "lldb",
+					adapter = "codelldb",
 				},
 			}),
 			require("neotest-jest")({
