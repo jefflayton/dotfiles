@@ -2,13 +2,18 @@ local deps = require("mini.deps")
 local add, now, later = deps.add, deps.now, deps.later
 
 now(function()
-	add({ source = "folke/snacks.nvim" })
-	require("snacks").setup({
-		bigfile = { enabled = true },
-	})
-
 	add({ source = "mason-org/mason.nvim" })
 	require("mason").setup()
+
+	add({ source = "preservim/vim-pencil" })
+	vim.api.nvim_create_augroup("Pencil", { clear = true })
+	vim.api.nvim_create_autocmd("FileType", {
+		group = "Pencil",
+		pattern = { "text", "markdown", "typst" },
+		callback = function()
+			vim.cmd("PencilSoft")
+		end,
+	})
 end)
 
 later(function()
@@ -30,22 +35,13 @@ later(function()
 	add({ source = "OXY2DEV/markview.nvim" })
 	require("markview").setup({
 		experimental = { check_rtp = false },
+		preview = { icon_provider = "mini" },
 		latex = {
 			enable = true,
 		},
 		typst = {
 			enable = false,
 		},
-	})
-
-	add({ source = "preservim/vim-pencil" })
-	vim.api.nvim_create_augroup("Pencil", { clear = true })
-	vim.api.nvim_create_autocmd("FileType", {
-		group = "Pencil",
-		pattern = "text",
-		callback = function()
-			vim.cmd("PencilSoft")
-		end,
 	})
 
 	add({ source = "andrewferrier/debugprint.nvim" })
@@ -72,4 +68,10 @@ later(function()
 
 	add({ source = "windwp/nvim-autopairs" })
 	require("nvim-autopairs").setup()
+
+	add({ source = "shortcuts/no-neck-pain.nvim" })
+	require("no-neck-pain").setup({
+		width = 200,
+	})
+	vim.keymap.set("n", "<leader>np", "<CMD>NoNeckPain<CR>", { desc = "NoNeckPain: Toggle" })
 end)

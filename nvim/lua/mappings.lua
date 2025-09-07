@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>w", ":w<cr>", { desc = "Write Buffer" })
 vim.keymap.set("n", "<leader>x", ":x<cr>", { desc = "Write and Close Buffer" })
+vim.keymap.set("n", "<leader>q", ":q<cr>", { desc = "Close Buffer" })
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Escape Terminal" })
 
 -- System Clipboard

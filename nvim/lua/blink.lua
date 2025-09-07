@@ -13,7 +13,6 @@ now(function()
 
 	add({
 		source = "saghen/blink.cmp",
-		checkout = "1.*",
 		depends = {
 			"kristijanhusak/vim-dadbod-completion",
 			"alexandre-abrioux/blink-cmp-npm.nvim",

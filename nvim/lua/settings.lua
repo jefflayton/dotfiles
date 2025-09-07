@@ -21,9 +21,6 @@ vim.o.ignorecase = true
 vim.o.hlsearch = false
 vim.o.smartcase = true
 
--- Enable spell checking
-vim.o.spell = true
-
 -- Terminal colors
 vim.o.termguicolors = true
 

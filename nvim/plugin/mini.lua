@@ -103,9 +103,11 @@ end)
 later(function()
 	local function get_words()
 		local count = nil
+
+		local filetype = vim.bo.filetype
 		if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "" then
 			count = vim.fn.wordcount().visual_words
-		elseif vim.bo.filetype == "text" or vim.bo.filetype == "markdown" then
+		elseif filetype == "text" or filetype == "markdown" or filetype == "typst" then
 			count = vim.fn.wordcount().words
 		else
 			count = nil
