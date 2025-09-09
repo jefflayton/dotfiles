@@ -74,4 +74,6 @@ later(function()
 		width = 200,
 	})
 	vim.keymap.set("n", "<leader>np", "<CMD>NoNeckPain<CR>", { desc = "NoNeckPain: Toggle" })
+	vim.keymap.set("n", "<leader>nl", "<CMD>NoNeckPainToggleLeftSide<CR>", { desc = "NoNeckPain: Toggle Left Side" })
+	vim.keymap.set("n", "<leader>nr", "<CMD>NoNeckPainToggleRightSide<CR>", { desc = "NoNeckPain: Toggle Right Side" })
 end)
