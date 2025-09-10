@@ -76,4 +76,8 @@ later(function()
 	vim.keymap.set("n", "<leader>np", "<CMD>NoNeckPain<CR>", { desc = "NoNeckPain: Toggle" })
 	vim.keymap.set("n", "<leader>nl", "<CMD>NoNeckPainToggleLeftSide<CR>", { desc = "NoNeckPain: Toggle Left Side" })
 	vim.keymap.set("n", "<leader>nr", "<CMD>NoNeckPainToggleRightSide<CR>", { desc = "NoNeckPain: Toggle Right Side" })
+
+	add({ source = "greggh/claude-code.nvim", depends = { "nvim-lua/plenary.nvim" } })
+	require("claude-code").setup()
+	vim.keymap.set("n", "<leader>cc", "<CMD>ClaudeCode<CR>", { desc = "ClaudeCode: Toggle" })
 end)
