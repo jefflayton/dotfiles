@@ -22,6 +22,12 @@ later(function()
 		},
 	}
 
+	dap.adapters.node = {
+		type = "executable",
+		command = "node",
+		args = { js_debug },
+	}
+
 	dap.configurations.javascript = {
 		{
 			type = "pwa-node",
@@ -64,26 +70,6 @@ later(function()
 			program = "${file}",
 			cwd = "${workspaceFolder}",
 			attachSimplePort = 9229,
-		},
-		{
-			type = "pwa-node",
-			request = "attach",
-			name = "Attach: Supabase Edge Runtime",
-			address = "127.0.0.1",
-			port = 8083,
-			cwd = vim.fn.getcwd(),
-			sourceMaps = true,
-			-- only look for .map files in your project
-			resolveSourceMapLocations = {
-				"${workspaceFolder}/**",
-				"!**/node_modules/**",
-				"!/var/tmp/sb-compile-edge-runtime/**",
-			},
-			-- smartStep = true,
-			skipFiles = { "<node_internals>/**", "**/node_modules/**" },
-			sourceMapPathOverrides = {
-				["file:///home/deno/functions/*"] = "${workspaceFolder}/supabase/functions/*",
-			},
 		},
 	}
 
