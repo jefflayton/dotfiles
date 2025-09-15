@@ -70,8 +70,6 @@ later(function()
 	require("nvim-autopairs").setup()
 
 	add({ source = "shortcuts/no-neck-pain.nvim" })
-	require("no-neck-pain").setup({
-		width = 200,
-	})
+	require("no-neck-pain").setup()
 	vim.keymap.set("n", "<leader>np", "<CMD>NoNeckPain<CR>", { desc = "NoNeckPain: Toggle" })
 end)
