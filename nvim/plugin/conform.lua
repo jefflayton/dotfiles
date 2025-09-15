@@ -8,6 +8,17 @@ later(function()
 	local conform = require("conform")
 
 	local jsFormatter = utils.deno_or_node({ "deno_fmt" }, { "prettierd" })
+
+	local sql_formatter = function()
+		local pg_wd = utils.root_pattern({ ".pg_format" })
+
+		if pg_wd ~= nil then
+			return {}
+		else
+			return { "pg_format" }
+		end
+	end
+
 	conform.setup({
 		format_on_save = {
 			timeout_ms = 500,
@@ -22,7 +33,7 @@ later(function()
 			json = jsFormatter,
 			jsonc = jsFormatter,
 			lua = { "stylua" },
-            sql = { "pg_format" },
+			sql = sql_formatter(),
 			svelte = { "prettierd" },
 			typescript = jsFormatter,
 			typescriptreact = jsFormatter,

@@ -96,7 +96,7 @@ now(function()
 		pick.registry.buffers(pickOpts)
 	end, "Buffers")
 	nmap("<leader>h", function()
-		require("mini.pick").builtin.help(pickOpts)
+		pick.builtin.help(pickOpts)
 	end, "Help")
 end)
 
