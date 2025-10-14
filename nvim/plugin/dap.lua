@@ -73,6 +73,7 @@ later(function()
 	local dap = require("dap")
 	local dapui = require("dapui")
 	require("dapui").setup()
+	dap.set_log_level("TRACE")
 
 	-- JavaScript/TypeScript
 	local js_debug = vim.fn.exepath("js-debug-adapter")
@@ -81,15 +82,28 @@ later(function()
 		host = "localhost",
 		port = "${port}",
 		executable = {
-			command = "node",
-			args = { js_debug, "${port}" },
+			command = js_debug,
+			args = { "${port}" },
 		},
 	}
 
+	local js_debug_script = vim.fn.expand("$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js")
+
 	dap.adapters.node = {
+		type = "server",
+		host = "localhost",
+		port = "${port}",
+		executable = {
+			command = "node",
+			args = { js_debug_script, "${port}" },
+		},
+	}
+
+	local firefox = vim.fn.exepath("firefox-debug-adapter")
+	dap.adapters.firefox = {
 		type = "executable",
-		command = "node",
-		args = { js_debug },
+		command = firefox,
+		args = { "${port}" },
 	}
 
 	dap.configurations.javascript = {
@@ -99,14 +113,34 @@ later(function()
 			name = "Node: Launch file",
 			program = "${file}",
 			cwd = "${workspaceFolder}",
+			skipFiles = {
+				"<node_internals>/**",
+				"**/node_modules/**",
+			},
 		},
 		{
 			type = "pwa-node",
-			request = "launch",
+			request = "attach",
 			name = "Node: Attach to a Process",
 			cwd = "${workspaceFolder}",
-			pid = require("dap.utils").pick_process,
+			address = "localhost",
+			port = 9229,
+			processId = require("dap.utils").pick_process,
+			skipFiles = {
+				"<node_internals>/**",
+				"**/node_modules/**",
+			},
 		},
+		{
+			name = "Debug with Firefox",
+			type = "firefox",
+			request = "launch",
+			reAttach = true,
+			url = "http://localhost:5173",
+			webRoot = "${workspaceFolder}/src",
+			firefoxExecutable = "/Applications/Zen.app",
+		},
+		-- Deno
 		{
 			type = "pwa-node",
 			request = "attach",
@@ -115,15 +149,16 @@ later(function()
 			port = 8083,
 			cwd = vim.fn.getcwd(),
 			sourceMaps = true,
-			-- only look for .map files in your project
 			resolveSourceMapLocations = {
 				"${workspaceFolder}/**",
 				"!**/node_modules/**",
 				"!/var/tmp/sb-compile-edge-runtime/**",
 			},
-			-- optional quality-of-life
 			smartStep = true,
-			skipFiles = { "<node_internals>/**", "**/node_modules/**" },
+			skipFiles = {
+				"<node_internals>/**",
+				"**/node_modules/**",
+			},
 			sourceMapPathOverrides = {
 				["file:///home/deno/functions/*"] = "${workspaceFolder}/supabase/functions/*",
 			},
@@ -145,6 +180,7 @@ later(function()
 	}
 
 	dap.configurations.typescript = dap.configurations.javascript
+	dap.configurations.svelte = dap.configurations.javascript
 
 	-- C/C++/Zig
 	local codelldb = vim.fn.exepath("codelldb")

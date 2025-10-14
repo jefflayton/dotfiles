@@ -12,13 +12,14 @@
 ---@type vim.lsp.Config
 return {
 	cmd = { "svelteserver", "--stdio" },
-	filetypes = { "svelte" },
+	filetypes = { "svelte", "typescript" },
 	root_dir = function(bufnr, on_dir)
 		local fname = vim.api.nvim_buf_get_name(bufnr)
 		-- Svelte LSP only supports file:// schema. https://github.com/sveltejs/language-tools/issues/2777
 		if vim.uv.fs_stat(fname) ~= nil then
 			local root_markers =
-				{ "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock", "deno.lock" }
+				-- { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock", "deno.lock" }
+				{ "svelte.config.js" }
 			root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
 				or vim.list_extend(root_markers, { ".git" })
 			-- We fallback to the current working directory if no project root is found

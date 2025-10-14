@@ -75,11 +75,13 @@ now(function()
 		tool = "rg",
 		globs = {
 			"!**/.git/**",
+			"!**/.jj/**",
 			"!**/node_modules/**",
-			"!**/!ios/**",
+			"!**/ios/**",
 			"!**/android/**",
 			"!**/dist/**",
 			"!**/build/**",
+			"!**/.zig-cache/**",
 		},
 	}
 

@@ -1,4 +1,4 @@
-local root_pattern = require("utils").root_patter ---@brief
+---@brief
 ---
 --- https://github.com/typescript-language-server/typescript-language-server
 ---

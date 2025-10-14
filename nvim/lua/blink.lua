@@ -1,22 +1,11 @@
 local add, now = require("mini.deps").add, require("mini.deps").now
 
 now(function()
-	add({ source = "zbirenbaum/copilot.lua" })
-	require("copilot").setup({
-		suggestion = { enabled = false },
-		panel = { enabled = false },
-		filetypes = {
-			markdown = true,
-			help = true,
-		},
-	})
-
 	add({
 		source = "saghen/blink.cmp",
 		depends = {
 			"kristijanhusak/vim-dadbod-completion",
 			"alexandre-abrioux/blink-cmp-npm.nvim",
-			"fang2hou/blink-copilot",
 			"L3MON4D3/LuaSnip",
 		},
 	})
@@ -85,7 +74,6 @@ now(function()
 				"lazydev",
 				"snippets",
 				"path",
-				"copilot",
 			},
 			per_filetype = {
 				sql = { inherit_defaults = true, "dadbod" },
@@ -103,15 +91,6 @@ now(function()
 					name = "Snippets",
 					module = "blink.cmp.sources.snippets",
 					min_keyword_length = 2,
-				},
-				copilot = {
-					name = "copilot",
-					module = "blink-copilot",
-					score_offset = 100,
-					async = true,
-					opts = {
-						max_completions = 3,
-					},
 				},
 				npm = {
 					name = "npm",

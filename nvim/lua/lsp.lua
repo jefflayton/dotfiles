@@ -51,7 +51,7 @@ vim.lsp.enable({
 	"denols",
 	"harperls",
 	"html",
-    "jsonls",
+	"jsonls",
 	"luals",
 	"postgres_lsp",
 	"svelte",
