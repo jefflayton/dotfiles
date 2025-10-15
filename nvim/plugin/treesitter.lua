@@ -25,6 +25,7 @@ now(function()
 			"sql",
 			"svelte",
 			"typescript",
+			"typst",
 			"yaml",
 			"zig",
 		},

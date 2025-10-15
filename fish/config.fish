@@ -1,8 +1,3 @@
-if status is-interactive
-and not set -q TMUX
-    tmux
-end
-
 fish_user_key_bindings
 
 set -gx EDITOR nvim

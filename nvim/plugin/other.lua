@@ -26,9 +26,6 @@ later(function()
 		},
 	})
 
-	add({ source = "aserowy/tmux.nvim" })
-	require("tmux").setup({ copy_sync = { enable = false } })
-
 	add({ source = "chomosuke/typst-preview.nvim" })
 	require("typst-preview").setup()
 
