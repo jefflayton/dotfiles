@@ -7,7 +7,7 @@ later(function()
 	})
 	local conform = require("conform")
 
-	local jsFormatter = utils.deno_or_node({ "deno_fmt" }, { "prettierd" })
+	local jsFormatter = utils.deno_or_node({ "deno_fmt" }, { "prettier" })
 
 	local sql_formatter = function()
 		local pg_wd = utils.root_pattern({ ".pg_format" })
@@ -34,7 +34,7 @@ later(function()
 			jsonc = jsFormatter,
 			lua = { "stylua" },
 			sql = sql_formatter(),
-			svelte = { "prettierd" },
+			svelte = { "prettier" },
 			typescript = jsFormatter,
 			typescriptreact = jsFormatter,
 			typst = { "typstyle" },
