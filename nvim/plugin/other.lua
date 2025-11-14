@@ -82,4 +82,11 @@ later(function()
 	vim.keymap.set("n", "K", function()
 		hover.open()
 	end, { desc = "Hover" })
+
+	add({ source = "saghen/blink.indent" })
+	require("blink.indent").setup({
+		scope = {
+			highlights = { "BlinkIndentScope" },
+		},
+	})
 end)

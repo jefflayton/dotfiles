@@ -40,5 +40,5 @@ keybind = ctrl+space>shift+j=resize_split:down,50
 keybind = ctrl+space>shift+k=resize_split:up,50
 
 # Selection Mode
-keybind = ctrl+space>[=write_scrollback_file:paste
+keybind = ctrl+space>[=write_screen_file:paste
 keybind = ctrl+space>]=text:\x01nvim +1000000 \n

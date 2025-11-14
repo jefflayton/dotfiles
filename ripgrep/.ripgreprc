@@ -19,8 +19,17 @@
 --no-require-git
 
 # Using glob patterns to include/exclude files or folders
+# VCS
 --glob=!.git/*
+--glob=!.jj/*
+# Language Specific
 --glob=!node_modules/*
+--glob=!.zig-cache/*
+# Builds
+--glob=!ios/*
+--glob=!android/*
+--glob=!dist/*
+--glob=!build/*
 
 # Because who cares about case!?
 --smart-case

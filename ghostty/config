@@ -19,9 +19,11 @@ cursor-opacity = 0.65
 adjust-cursor-thickness = 45%
 mouse-hide-while-typing = true
 
+# Scrollback
+scrollback-limit = 20000000
+
 # Keybinds
 config-file = ./keybinds
-
 
 # MacOS
 macos-titlebar-style = tabs
