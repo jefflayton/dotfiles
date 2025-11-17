@@ -16,3 +16,7 @@ vim.keymap.set("v", "<M-j>", ":m '>+1<cr>gv=gv", { desc = "Move Line Up" })
 vim.keymap.set("v", "<M-k>", ":m '<-2<cr>gv=gv", { desc = "Move Line Down" })
 vim.keymap.set("v", "<M-l>", ">gv", { desc = "Move Line Left" })
 vim.keymap.set("v", "<M-h>", "<gv", { desc = "Move Line Right" })
+
+-- Insert Newlines in Normal Mode
+vim.keymap.set("n", "<cr>", "m`o<esc>``")
+vim.keymap.set("n", "<s-cr>", "m`O<esc>``")
