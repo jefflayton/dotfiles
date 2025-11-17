@@ -55,9 +55,11 @@ later(function()
 			enable = true,
 		},
 		typst = {
-			enable = false,
+			enable = true,
 		},
 	})
+	require("markview.extras.checkboxes").setup()
+	vim.keymap.set("n", "<leader>ct", "<cmd>CheckboxToggle<cr>", { desc = "Markview: Toggle Checkbox" })
 
 	add({ source = "andrewferrier/debugprint.nvim" })
 	require("debugprint").setup({
