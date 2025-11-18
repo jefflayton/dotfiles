@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 vim.keymap.set("n", "<leader>w", ":w<cr>", { desc = "Write Buffer" })
 vim.keymap.set("n", "<leader>x", ":x<cr>", { desc = "Write and Close Buffer" })

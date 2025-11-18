@@ -22,6 +22,7 @@ now(function()
 			"make",
 			"markdown",
 			"markdown_inline",
+			"regex",
 			"sql",
 			"svelte",
 			"typescript",
