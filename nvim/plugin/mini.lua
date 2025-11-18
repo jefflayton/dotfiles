@@ -20,7 +20,6 @@ now(function()
 
 	local map_split = function(buf_id, lhs, direction)
 		local rhs = function()
-			-- Make new window and set it as target
 			local cur_target = files.get_explorer_state().target_window
 			vim.api.nvim_win_call(cur_target, function()
 				vim.cmd(direction .. " split")
@@ -39,7 +38,6 @@ now(function()
 		pattern = "MiniFilesBufferCreate",
 		callback = function(args)
 			local buf_id = args.data.buf_id
-			-- Tweak keys to your liking
 			map_split(buf_id, "<C-s>", "belowright horizontal")
 			map_split(buf_id, "<C-v>", "belowright vertical")
 		end,
@@ -71,19 +69,7 @@ now(function()
 		return pick.builtin.buffers(local_opts, opts)
 	end
 
-	local pickOpts = {
-		tool = "rg",
-		globs = {
-			"!**/.git/**",
-			"!**/.jj/**",
-			"!**/node_modules/**",
-			"!**/ios/**",
-			"!**/android/**",
-			"!**/dist/**",
-			"!**/build/**",
-			"!**/.zig-cache/**",
-		},
-	}
+	local pickOpts = { tool = "rg" }
 
 	local nmap = function(keymap, action, desc)
 		vim.keymap.set("n", keymap, action, { desc = "MiniPick: " .. desc })
