@@ -1,14 +1,5 @@
 local deps = require("mini.deps")
-local add, now, later = deps.add, deps.now, deps.later
-
-now(function()
-	add({ source = "folke/snacks.nvim" })
-	require("snacks").setup({
-		bigfile = { enabled = true },
-		gh = { enabled = true },
-		image = { enabled = true },
-	})
-end)
+local add, later = deps.add, deps.later
 
 later(function()
 	add({ source = "folke/lazydev.nvim" })
