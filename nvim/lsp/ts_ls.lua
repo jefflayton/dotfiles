@@ -32,7 +32,16 @@
 --- Use the `:LspTypescriptSourceAction` command to see "whole file" ("source") code-actions such as:
 --- - organize imports
 --- - remove unused code
+---
+--- ### Monorepo support
+---
+--- `ts_ls` supports monorepos by default. It will automatically find the `tsconfig.json` or `jsconfig.json` corresponding to the package you are working on.
+--- This works without the need of spawning multiple instances of `ts_ls`, saving memory.
+---
+--- It is recommended to use the same version of TypeScript in all packages, and therefore have it available in your workspace root. The location of the TypeScript binary will be determined automatically, but only once.
+---
 
+---@type vim.lsp.Config
 return {
 	init_options = { hostInfo = "neovim" },
 	cmd = { "typescript-language-server", "--stdio" },
@@ -44,13 +53,23 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
-	workspace_required = true,
 	root_dir = function(bufnr, on_dir)
-		local root_files = { "tsconfig.json", "jsconfig.json", "package.json" }
-		local fname = vim.api.nvim_buf_get_name(bufnr)
-		if vim.uv.fs_stat(fname) ~= nil then
-			on_dir(vim.fs.dirname(vim.fs.find(root_files, { path = fname, upward = true })[1]))
+		-- The project root is where the LSP can be started from
+		-- As stated in the documentation above, this LSP supports monorepos and simple projects.
+		-- We select then from the project root, which is identified by the presence of a package
+		-- manager lock file.
+		local root_markers = { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" }
+		-- Give the root markers equal priority by wrapping them in a table
+		root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
+			or vim.list_extend(root_markers, { ".git" })
+		-- exclude deno
+		local deno_path = vim.fs.root(bufnr, { "deno.json", "deno.jsonc", "deno.lock" })
+		local project_root = vim.fs.root(bufnr, root_markers)
+		if deno_path and (not project_root or #deno_path >= #project_root) then
+			return
 		end
+		-- We fallback to the current working directory if no project root is found
+		on_dir(project_root or vim.fn.getcwd())
 	end,
 	handlers = {
 		-- handle rename request for certain code actions like extracting functions / types
@@ -66,17 +85,13 @@ return {
 			vim.lsp.buf.rename()
 			return vim.NIL
 		end,
-		["textDocument/publishDiagnostics"] = function(err, result, ctx)
-			require("ts-error-translator").translate_diagnostics(err, result, ctx)
-			vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
-		end,
 	},
 	commands = {
 		["editor.action.showReferences"] = function(command, ctx)
 			local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
 			local file_uri, position, references = unpack(command.arguments)
 
-			local quickfix_items = vim.lsp.util.locations_to_items(references, client.offset_encoding)
+			local quickfix_items = vim.lsp.util.locations_to_items(references --[[@as any]], client.offset_encoding)
 			vim.fn.setqflist({}, " ", {
 				title = command.title,
 				items = quickfix_items,
@@ -87,12 +102,13 @@ return {
 			})
 
 			vim.lsp.util.show_document({
-				uri = file_uri,
+				uri = file_uri --[[@as string]],
 				range = {
-					start = position,
-					["end"] = position,
+					start = position --[[@as lsp.Position]],
+					["end"] = position --[[@as lsp.Position]],
 				},
 			}, client.offset_encoding)
+			---@diagnostic enable: assign-type-mismatch
 
 			vim.cmd("botright copen")
 		end,
@@ -108,6 +124,7 @@ return {
 			vim.lsp.buf.code_action({
 				context = {
 					only = source_actions,
+					diagnostics = {},
 				},
 			})
 		end, {})

@@ -43,6 +43,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+	callback = function()
+		vim.lsp.buf.code_action({
+			context = {
+				only = { "source.fixAll" },
+				diagnostics = {},
+			},
+			apply = true,
+		})
+		vim.lsp.buf.code_action({
+			context = {
+				only = { "source.organizeImports" },
+				diagnostics = {},
+			},
+			apply = true,
+		})
+	end,
+})
 vim.lsp.config("*", { capabilities = require("blink.cmp").get_lsp_capabilities() })
 
 vim.lsp.enable({
